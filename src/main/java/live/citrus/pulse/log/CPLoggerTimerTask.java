@@ -2,19 +2,30 @@ package live.citrus.pulse.log;
 
 import java.util.Date;
 
+import live.citrus.pulse.variable.numeric.CPNumericUtils;
+
 public class CPLoggerTimerTask
 {
     /** ログタグ **/
     public String name;
     
     /** 開始時間 **/
-    public Date startDate;
+    private Date startDate;
     
     /** 終了時間 **/
-    public Date endDate;
+    private Date endDate;
     
     /** 経過時間(ミリ秒) **/
-    public Long millisecond;
+    private Long millisecond;
+    
+    /** 合計呼び出し回数 **/
+    public Long totalCount = Long.valueOf(0);
+    
+    /** 合計経過時間(ミリ秒) **/
+    public Long totalMillisecond = Long.valueOf(0);
+    
+    /** 平均経過時間(ミリ秒) **/
+    public Double avgMillisecond = Double.valueOf(0);
     
     
     /**
@@ -44,5 +55,9 @@ public class CPLoggerTimerTask
     {
         this.endDate = new Date();
         this.millisecond = Long.valueOf(this.endDate.getTime() - this.startDate.getTime());
+        
+        this.totalCount = CPNumericUtils.plus(this.totalCount, Long.valueOf(1));
+        this.totalMillisecond = CPNumericUtils.plus(this.totalMillisecond, this.millisecond);
+        this.avgMillisecond = CPNumericUtils.divide(this.totalMillisecond, this.totalCount);
     }
 }

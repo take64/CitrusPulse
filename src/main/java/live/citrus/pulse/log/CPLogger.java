@@ -5,7 +5,7 @@ import java.util.Date;
 
 public class CPLogger
 {
-    public static SimpleDateFormat dateFormar = new SimpleDateFormat("yyyy/MM/dd kk:mm:ss.SSS");
+    public static SimpleDateFormat dateFormar = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss.SSS");
     
     public static void debug()
     {

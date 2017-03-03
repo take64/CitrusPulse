@@ -3,7 +3,6 @@ package live.citrus.pulse.fx.stage;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.net.URL;
-import java.net.URLClassLoader;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -118,6 +117,7 @@ public class CPFxStage extends Stage
         {
             this.innerPane.change();
             this.show();
+            this.toFront();
         }
         catch(Exception e)
         {
@@ -134,6 +134,24 @@ public class CPFxStage extends Stage
         {
             this.innerPane.loadObject(null);
             this.show();
+            this.toFront();
+        }
+        catch(Exception e)
+        {
+            CPLogger.debug(e);
+        }
+    }
+    
+    /**
+     * show時にrefreshもする
+     */
+    public void showAndRefresh(Object object)
+    {
+        try
+        {
+            this.innerPane.loadObject(object);
+            this.show();
+            this.toFront();
         }
         catch(Exception e)
         {

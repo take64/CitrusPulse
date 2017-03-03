@@ -7,6 +7,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -121,7 +122,9 @@ public class CPObjectDatabaseTable
      */
     public CPObjectDatabaseRecord callRecord(Object primaryKey)
     {
+//        CPLoggerTimer.start();
         CPObjectDatabaseRecord record = this.callRecords().get(primaryKey);
+//        CPLoggerTimer.end();
         return record;
     }
     
@@ -178,6 +181,48 @@ public class CPObjectDatabaseTable
     /**
      * search record(s)
      * 
+     * @param conditions
+     * @return
+     */
+    public List<CPObjectDatabaseRecord> searchRecords(Map<String, Object> conditions)
+    {
+        List<CPObjectDatabaseRecord> results = new ArrayList<CPObjectDatabaseRecord>(4);
+        Collection<CPObjectDatabaseRecord> entities = this.callRecords().values();
+        try
+        {
+            for(CPObjectDatabaseRecord one : entities)
+            {
+                boolean result = false;
+                for(Entry<String, Object> entry : conditions.entrySet())
+                {
+                    Field field = one.getClass().getField(entry.getKey());
+                    Object fieldValue = field.get(one);
+                    if(fieldValue.equals(entry.getValue()) == true)
+                    {
+                        result = true;
+                    }
+                    else
+                    {
+                        result = false;
+                        break;
+                    }
+                }
+                if(result == true)
+                {
+                    results.add(one);
+                }
+            }
+        }
+        catch(Exception e)
+        {
+            CPLogger.debug(e);
+        }
+        return results;
+    }
+
+    /**
+     * search record
+     * 
      * @param key
      * @param value
      * @return
@@ -186,6 +231,23 @@ public class CPObjectDatabaseTable
     {
         CPObjectDatabaseRecord result = null;
         List<CPObjectDatabaseRecord> entities = this.searchRecords(key, value);
+        if(entities.isEmpty() == false)
+        {
+            result = entities.get(0);
+        }
+        return result;
+    }
+
+    /**
+     * search record
+     * 
+     * @param conditions
+     * @return
+     */
+    public CPObjectDatabaseRecord searchRecord(Map<String, Object> conditions)
+    {
+        CPObjectDatabaseRecord result = null;
+        List<CPObjectDatabaseRecord> entities = this.searchRecords(conditions);
         if(entities.isEmpty() == false)
         {
             result = entities.get(0);

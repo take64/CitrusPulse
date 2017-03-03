@@ -261,7 +261,12 @@ public class CPObjectDatabaseManager
         CPLogger.debug("database save start : " + filepath);
         try
         {
-            CPFile.saveText(dirpath, filename, this.callTable(entityName).toJSONArray().toString());
+            JSONArray jsonArray = this.callTable(entityName).toJSONArray();
+            if(jsonArray.length() == 0)
+            {
+                throw new Exception("json empty");
+            }
+            CPFile.saveText(dirpath, filename, jsonArray.toString());
         }
         catch(Exception e)
         {

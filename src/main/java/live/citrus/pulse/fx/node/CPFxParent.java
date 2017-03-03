@@ -34,6 +34,9 @@ public abstract class CPFxParent implements Initializable
     /** 対応するペーン **/
     public AnchorPane childPane = null;
     
+    /** 処理中 **/
+    private boolean changing = false;
+    
     /**
      * 初期化
      */
@@ -97,6 +100,33 @@ public abstract class CPFxParent implements Initializable
             this.parentStage.setTitle(title);
         }
     }
+    
+    /**
+     * change処理中
+     * 
+     * @return
+     */
+    public boolean isChanging()
+    {
+        return this.changing;
+    }
+    
+    /**
+     * change処理開始
+     */
+    public void startChange()
+    {
+        this.changing = true;
+    }
+    
+    /**
+     * change処理終了
+     */
+    public void endChange()
+    {
+        this.changing = false;
+    }
+    
     
     /**
      * ペーンの読み込み

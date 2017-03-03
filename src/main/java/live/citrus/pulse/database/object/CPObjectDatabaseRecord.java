@@ -11,12 +11,14 @@ import org.json.JSONObject;
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.RadioButton;
 import live.citrus.pulse.fx.CPFX;
 import live.citrus.pulse.fx.node.CPFxParent;
 import live.citrus.pulse.log.CPLogger;
+import live.citrus.pulse.variable.date.CPDateUtils;
 
-public abstract class CPObjectDatabaseRecord// implements Cloneable
+public abstract class CPObjectDatabaseRecord
 {
     /** 管理テーブル **/
     private CPObjectDatabaseTable table;
@@ -25,72 +27,10 @@ public abstract class CPObjectDatabaseRecord// implements Cloneable
     public Object primaryKey; 
     
     
-//    public static Map<String, String> mapping;
-    
     /**
      * フィールド内容の補完
      */
     abstract public void columnComplete();
-    
-//    /**
-//     * データのバインドをする
-//     * 
-//     * @param jsonObject
-//     * @param record
-//     */
-//    public void bind(JSONObject jsonObject)
-//    {
-////        Map<String, Object> object = jsonObject.toMap();
-////        Map<String, String> mapping = this.callMapping();
-//        
-////        if(mapping == null)
-////        {
-//            this.bindFromJSON(jsonObject);
-////            return ;
-////        }
-////        
-////        for(Entry<String, String> entry : mapping.entrySet())
-////        {            
-////            try
-////            {
-////                final Field field = this.getClass().getField(entry.getKey());
-////                
-////                Object value = object.get(entry.getValue());
-////                final Class<?> classType = field.getType();
-////                
-////                // 受け取った値がnullの場合
-////                if(value == null)
-////                {
-////                }
-////                // 受け取った型と設定先の型が違う場合
-////                else if(classType != value.getClass())
-////                {
-////                    // String => Integer
-////                    if(value instanceof String && classType == Integer.class)
-////                    {
-////                        value = Integer.valueOf((String)value);
-////                    }
-////                    // Integer => String
-////                    else if(value instanceof Integer && classType == String.class)
-////                    {
-////                        value = String.valueOf((Integer)value);
-////                    }
-////                    // Integer => Long
-////                    else if(value instanceof Integer && classType == Long.class)
-////                    {
-////                        value = Long.valueOf((Integer)value);
-////                    }
-////                }
-////                field.set(this, value);
-////            }
-////            catch(Exception e)
-////            {
-////                CPLogger.debug("load property : " + entry.getKey());
-////                CPLogger.debug(e);
-////                CPLogger.debug(object.toString());
-////            }
-////        }
-//    }
 
     /**
      * 画面からフィールドデータをbind
@@ -140,6 +80,11 @@ public abstract class CPObjectDatabaseRecord// implements Cloneable
                         else if(paneField.getType() == RadioButton.class)
                         {
                             value = Integer.valueOf(((RadioButton)object).isSelected() == true ? 1 : 0);
+                        }
+                        // DatePicker
+                        else if(paneField.getType() == DatePicker.class)
+                        {
+                            value = CPDateUtils.format("yyyy-MM-dd", ((DatePicker)object).getValue());
                         }
                         
                         if(value.equals("null") == true)
@@ -290,34 +235,6 @@ public abstract class CPObjectDatabaseRecord// implements Cloneable
         
         return map;
     }
-    
-//    /**
-//     * マッピングの取得
-//     * 
-//     * @return
-//     */
-//    @SuppressWarnings("unchecked")
-//    public Map<String, String> callMapping()
-//    {
-//        Map<String, String> mapping = null;
-//        
-//        try
-//        {
-//            Field field = this.getClass().getField("mapping");
-//            mapping = (Map<String, String>) field.get(this);
-//            CPLogger.debug("mainng size : " + Integer.valueOf(mapping.size()));
-//        }
-//        catch(NoSuchFieldException e)
-//        {
-//            CPLogger.debug(this.getClass().getSimpleName() + " : mapping が存在しません");
-//        }
-//        catch(Exception e)
-//        {
-//            CPLogger.debug(e);
-//        }
-//        
-//        return mapping;
-//    }
 
     /**
      * コールバックの取得
@@ -344,11 +261,4 @@ public abstract class CPObjectDatabaseRecord// implements Cloneable
         
         return callback;
     }
-    
-
-//    @Override
-//    public Object clone() throws CloneNotSupportedException
-//    {
-//        return super.clone();
-//    }
 }

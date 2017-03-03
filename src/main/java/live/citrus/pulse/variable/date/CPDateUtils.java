@@ -1,6 +1,5 @@
 package live.citrus.pulse.variable.date;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -188,7 +187,6 @@ public class CPDateUtils
     /**
      * n分後
      * 
-     * @param date
      * @param minute
      * @return
      */
@@ -200,7 +198,6 @@ public class CPDateUtils
     /**
      * n秒後
      * 
-     * @param date
      * @param second
      * @return
      */
@@ -235,6 +232,20 @@ public class CPDateUtils
     {
         long second = millisecond / 1000;
         return String.format("%d:%02d:%02d", (second / 3600), ((second / 60) % 60), (second % 60));
+    }
+    
+    /**
+     * yyyyMMdd日付文字列をyyyy-MM-dd日付文字列に
+     * 
+     * @param time
+     * @return
+     */
+    public static String joinHyphen(String dateString)
+    {
+        String yyyy = dateString.substring(0, 4);
+        String MM = dateString.substring(4, 6);
+        String dd = dateString.substring(6, 8);
+        return yyyy + "-" + MM + "-" + dd;
     }
     
     /**

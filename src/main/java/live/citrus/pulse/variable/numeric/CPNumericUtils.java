@@ -9,18 +9,30 @@ public class CPNumericUtils
 {
     /** フォーマットキャッシュ **/
     public static Map<String, DecimalFormat> formats = new HashMap<String, DecimalFormat>();
-    
+
     /**
      * 加算( Integer )
      * 
-     * @param integer1
-     * @param integer2
+     * @param value1
+     * @param value2
      * @return
      */
     public static Integer plus(Integer value1, Integer value2)
     {
         int result = value1.intValue() + value2.intValue();
         return Integer.valueOf(result);
+    }
+    /**
+     * 加算( Long )
+     * 
+     * @param value1
+     * @param value2
+     * @return
+     */
+    public static Long plus(Long value1, Long value2)
+    {
+        long result = value1.longValue() + value2.longValue();
+        return Long.valueOf(result);
     }
     
     /**
@@ -47,6 +59,33 @@ public class CPNumericUtils
     {
         int result = value1.intValue() - value2.intValue();
         return Integer.valueOf(result);
+    }
+    
+    /**
+     * 除算( Long )
+     * 
+     * @param value1
+     * @param value2
+     * @return
+     */
+    public static Double divide(Long value1, Long value2)
+    {
+        BigDecimal result = (new BigDecimal(value1.doubleValue())).divide((new BigDecimal(value2.doubleValue())), 3, BigDecimal.ROUND_HALF_UP);
+        return Double.valueOf(result.doubleValue());
+    }
+    
+    /**
+     * パーセントの算出
+     * 
+     * @param numerator 分子
+     * @param denominator 分母
+     * @return
+     */
+    public static BigDecimal percent(Integer numerator, Integer denominator)
+    {
+        double percent = (numerator.doubleValue() / denominator.doubleValue());
+        BigDecimal decimal = new BigDecimal(percent);
+        return decimal;
     }
     
     /**
@@ -85,20 +124,20 @@ public class CPNumericUtils
      * @param int
      * @return
      */
-    public static String format(int integer)
+    public static String format(int value)
     {
-        return CPNumericUtils.format("#,###", Integer.valueOf(integer));
+        return CPNumericUtils.format("#,###", Integer.valueOf(value));
     }
     
     /**
      * 数値からフォーマット文字列を取得
      * 
-     * @param integer
+     * @param value
      * @return
      */
-    public static String format(Integer integer)
+    public static String format(Integer value)
     {
-        return CPNumericUtils.format("#,###", integer);
+        return CPNumericUtils.format("#,###", value);
     }
     
     /**
