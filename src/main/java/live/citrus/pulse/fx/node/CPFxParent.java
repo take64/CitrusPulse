@@ -188,7 +188,7 @@ public abstract class CPFxParent implements Initializable
                     Field entityField = CPFxParent.callEntityField(entity, thisField);
 
                     // フィールドに値を設定
-                    CPFxParent.bindEntityField(entity, entityField, thisField);
+                    CPFxParent.bindEntityField(entity, entityField, thisField, this);
                 }
             }
         }
@@ -219,14 +219,17 @@ public abstract class CPFxParent implements Initializable
             for(Field field : entityFields)
             {
                 CPFX cpfx = field.getAnnotation(CPFX.class);
-                if(cpfx != null)
+                // nullであればスルー
+                if(cpfx == null)
                 {
-                    String cpfxFieldName = cpfx.value();
-                    if(fieldName.equals(cpfxFieldName) == true)
-                    {
-                        entityField = field;
-                        break;
-                    }
+                    continue;
+                }
+
+                String cpfxFieldName = cpfx.value();
+                if(fieldName.equals(cpfxFieldName) == true)
+                {
+                    entityField = field;
+                    break;
                 }
             }
         }
@@ -240,9 +243,10 @@ public abstract class CPFxParent implements Initializable
      * @param entity        レコード
      * @param entityField   レコードのフィールド
      * @param thisField     ビューのフィールド
+     * @param pane          ビュー
      * @throws IllegalAccessException
      */
-    private static void bindEntityField(CPObjectDatabaseRecord entity, Field entityField, Field thisField) throws IllegalAccessException
+    private static void bindEntityField(CPObjectDatabaseRecord entity, Field entityField, Field thisField, CPFxParent pane) throws IllegalAccessException
     {
         if(entityField != null && entityField.isAnnotationPresent(CPFX.class) == true)
         {
@@ -254,7 +258,7 @@ public abstract class CPFxParent implements Initializable
                 value = entityField.get(entity);
             }
 
-            Object object = thisField.get(this);
+            Object object = thisField.get(pane);
 
             // ChoiceBox
             if(thisField.getType() == ChoiceBox.class)

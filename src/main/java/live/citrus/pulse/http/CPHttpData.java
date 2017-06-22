@@ -138,21 +138,21 @@ public class CPHttpData
             Method[] methods = object.getClass().getMethods();
             for(Method method : methods)
             {
-                if(CPHttpData.isUrlPatternMethod(httpData, method) == true)
+                // 合致しなければスルー
+                if(CPHttpData.isUrlPatternMethod(httpData, method) == false)
                 {
-                    // 合致すれば実行
-                    try
-                    {
-//                        CPLoggerTimer.start();
-                        method.invoke(object, httpData);
-//                        CPLoggerTimer.end();
-                        result = true;
-                        break;
-                    }
-                    catch(Exception e)
-                    {
-                        CPLogger.debug(e);
-                    }
+                    continue;
+                }
+                // 合致すれば実行
+                try
+                {
+                    method.invoke(object, httpData);
+                    result = true;
+                    break;
+                }
+                catch(Exception e)
+                {
+                    CPLogger.debug(e);
                 }
             }
         }

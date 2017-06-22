@@ -2,14 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5b8b17de-e56e-4113-a767-e7b1a5b6c716" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/live/citrus/pulse/database/object/CPObjectDatabaseManager.java" afterPath="$PROJECT_DIR$/src/main/java/live/citrus/pulse/database/object/CPObjectDatabaseManager.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/live/citrus/pulse/database/object/CPObjectDatabaseRecord.java" afterPath="$PROJECT_DIR$/src/main/java/live/citrus/pulse/database/object/CPObjectDatabaseRecord.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/live/citrus/pulse/database/object/CPObjectDatabaseTable.java" afterPath="$PROJECT_DIR$/src/main/java/live/citrus/pulse/database/object/CPObjectDatabaseTable.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/live/citrus/pulse/fx/dialog/CPFxDialog.java" afterPath="$PROJECT_DIR$/src/main/java/live/citrus/pulse/fx/dialog/CPFxDialog.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/live/citrus/pulse/fx/stage/CPFxStage.java" afterPath="$PROJECT_DIR$/src/main/java/live/citrus/pulse/fx/stage/CPFxStage.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/live/citrus/pulse/http/CPHttp.java" afterPath="$PROJECT_DIR$/src/main/java/live/citrus/pulse/http/CPHttp.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/live/citrus/pulse/fx/node/CPFxParent.java" afterPath="$PROJECT_DIR$/src/main/java/live/citrus/pulse/fx/node/CPFxParent.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/live/citrus/pulse/http/CPHttpData.java" afterPath="$PROJECT_DIR$/src/main/java/live/citrus/pulse/http/CPHttpData.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/live/citrus/pulse/variable/date/CPDateUtils.java" afterPath="$PROJECT_DIR$/src/main/java/live/citrus/pulse/variable/date/CPDateUtils.java" />
     </list>
     <ignored path="$PROJECT_DIR$/target/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
