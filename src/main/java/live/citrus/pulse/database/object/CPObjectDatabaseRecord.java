@@ -31,7 +31,16 @@ public abstract class CPObjectDatabaseRecord
      * フィールド内容の補完
      */
     abstract public void columnComplete();
-
+    
+    /**
+     * trueの場合はレコードが生き、falseは死に
+     * @return
+     */
+    public boolean enabled()
+    {
+        return true;
+    }
+    
     /**
      * 画面からフィールドデータをbind
      * 

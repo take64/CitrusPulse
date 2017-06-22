@@ -168,40 +168,16 @@ public class CPHttpData
      */
     public static boolean isUrlPatternClass(CPHttpData httpData, Class<? extends Object> clazz)
     {
-        List<String> uriSegments = httpData.callUriSegments();
-        
         boolean result = false;
         
         if(clazz.isAnnotationPresent(CPHttpUriPattern.class) == true)
         {
-            CPHttpUriPattern uriPattern = (CPHttpUriPattern)clazz.getAnnotationsByType(CPHttpUriPattern.class)[0];
-            String[] uriPatternValue = uriPattern.value();
-            int index = Integer.parseInt(uriPatternValue[0]);
-            String pattern = uriPatternValue[1];
-            if(uriSegments.size() > index)
-            {
-                String segment = uriSegments.get(index);
-                if(pattern.startsWith("*") == true && pattern.endsWith("*") == true)
-                {
-                    if(segment.contains(pattern) == true) { result = true; }
-                }
-                else if(pattern.startsWith("*") == true)
-                {
-                    if(segment.endsWith(pattern) == true) { result = true; }
-                }
-                else if(pattern.endsWith("*") == true)
-                {
-                    if(segment.startsWith(pattern) == true) { result = true; }
-                }
-                else
-                {
-                    if(segment.equals(pattern) == true) { result = true; }
-                }
-            }
+            CPHttpUriPattern uriPattern = clazz.getAnnotationsByType(CPHttpUriPattern.class)[0];
+            result = CPHttpData.isUrlPattern(httpData, uriPattern);
         }
         return result;
     }
-    
+
 
     /**
      * メソッドがCPHttpUriPatternに合致するかどうか
@@ -212,37 +188,54 @@ public class CPHttpData
      */
     public static boolean isUrlPatternMethod(CPHttpData httpData, Method method)
     {
-        List<String> uriSegments = httpData.callUriSegments();
-        
         boolean result = false;
         
         if(method.isAnnotationPresent(CPHttpUriPattern.class) == true)
         {
-            CPHttpUriPattern uriPattern = (CPHttpUriPattern)method.getAnnotationsByType(CPHttpUriPattern.class)[0];
-            String[] uriPatternValue = uriPattern.value();
-            int index = Integer.parseInt(uriPatternValue[0]);
-            String pattern = uriPatternValue[1];
-            if(uriSegments.size() > index)
+            CPHttpUriPattern uriPattern = method.getAnnotationsByType(CPHttpUriPattern.class)[0];
+            result = CPHttpData.isUrlPattern(httpData, uriPattern);
+        }
+        return result;
+    }
+
+
+    /**
+     * パターンとURIセグメントが合致するか
+     *
+     * @param httpData      HttpData
+     * @param uriPattern    パターン情報
+     * @return 合致:true, 非合致:false
+     */
+    private static boolean isUrlPattern(CPHttpData httpData, CPHttpUriPattern uriPattern)
+    {
+        List<String> uriSegments = httpData.callUriSegments();
+
+        boolean result = false;
+
+        String[] uriPatternValue = uriPattern.value();
+        int index = Integer.parseInt(uriPatternValue[0]);
+        String pattern = uriPatternValue[1];
+        if(uriSegments.size() > index)
+        {
+            String segment = uriSegments.get(index);
+            if(pattern.startsWith("*") == true && pattern.endsWith("*") == true)
             {
-                String segment = uriSegments.get(index);
-                if(pattern.startsWith("*") == true && pattern.endsWith("*") == true)
-                {
-                    if(segment.contains(pattern) == true) { result = true; }
-                }
-                else if(pattern.startsWith("*") == true)
-                {
-                    if(segment.endsWith(pattern) == true) { result = true; }
-                }
-                else if(pattern.endsWith("*") == true)
-                {
-                    if(segment.startsWith(pattern) == true) { result = true; }
-                }
-                else
-                {
-                    if(segment.equals(pattern) == true) { result = true; }
-                }
+                if(segment.contains(pattern) == true) { result = true; }
+            }
+            else if(pattern.startsWith("*") == true)
+            {
+                if(segment.endsWith(pattern) == true) { result = true; }
+            }
+            else if(pattern.endsWith("*") == true)
+            {
+                if(segment.startsWith(pattern) == true) { result = true; }
+            }
+            else
+            {
+                if(segment.equals(pattern) == true) { result = true; }
             }
         }
+
         return result;
     }
 }

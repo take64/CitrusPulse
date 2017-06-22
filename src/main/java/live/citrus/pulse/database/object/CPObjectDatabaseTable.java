@@ -39,15 +39,13 @@ public class CPObjectDatabaseTable
     {
         this.tableName = tableName;
         this.records = Collections.synchronizedMap(new HashMap<Object, CPObjectDatabaseRecord>());
-        
-//        this.processing = true;
     };
     
     
     /**
      * add record
      * 
-     * @param record
+     * @param record    レコード
      */
     public void addRecord(CPObjectDatabaseRecord record)
     {
@@ -68,7 +66,7 @@ public class CPObjectDatabaseTable
     /**
      * add record(s)
      * 
-     * @param records
+     * @param records   レコードリスト
      */
     public void addRecords(List<? extends CPObjectDatabaseRecord> records)
     {
@@ -117,8 +115,8 @@ public class CPObjectDatabaseTable
     /**
      * call record
      * 
-     * @param primaryKey
-     * @return
+     * @param primaryKey    PK
+     * @return              レコード
      */
     public CPObjectDatabaseRecord callRecord(Object primaryKey)
     {
@@ -151,8 +149,8 @@ public class CPObjectDatabaseTable
     /**
      * search record(s)
      * 
-     * @param key
-     * @param value
+     * @param key       検索キー
+     * @param value     検索値
      * @return
      */
     public List<CPObjectDatabaseRecord> searchRecords(String key, Object value)
@@ -181,12 +179,12 @@ public class CPObjectDatabaseTable
     /**
      * search record(s)
      * 
-     * @param conditions
-     * @return
+     * @param conditions    検索条件ハッシュ
+     * @return              検索合致レコードリスト
      */
     public List<CPObjectDatabaseRecord> searchRecords(Map<String, Object> conditions)
     {
-        List<CPObjectDatabaseRecord> results = new ArrayList<CPObjectDatabaseRecord>(4);
+        List<CPObjectDatabaseRecord> results = new ArrayList<>(4);
         Collection<CPObjectDatabaseRecord> entities = this.callRecords().values();
         try
         {
@@ -223,14 +221,14 @@ public class CPObjectDatabaseTable
     /**
      * search record
      * 
-     * @param key
-     * @param value
-     * @return
+     * @param key   検索キー
+     * @param value 検索値
+     * @return      検索合致レコード
      */
     public CPObjectDatabaseRecord searchRecord(String key, Object value)
     {
         CPObjectDatabaseRecord result = null;
-        List<CPObjectDatabaseRecord> entities = this.searchRecords(key, value);
+        List<CPObjectDatabaseRecord> entities = this.searchRecords(レコード, value);
         if(entities.isEmpty() == false)
         {
             result = entities.get(0);
@@ -241,8 +239,8 @@ public class CPObjectDatabaseTable
     /**
      * search record
      * 
-     * @param conditions
-     * @return
+     * @param conditions    検索条件
+     * @return              検索合致レコード
      */
     public CPObjectDatabaseRecord searchRecord(Map<String, Object> conditions)
     {
@@ -258,7 +256,7 @@ public class CPObjectDatabaseTable
     /**
      * 保持してあるJSONデータを取得
      * 
-     * @return
+     * @return  JSON文字列
      */
     public String callJSONSource()
     {
@@ -267,8 +265,6 @@ public class CPObjectDatabaseTable
     
     /**
      * JSONデータを置き換える
-     * 
-     * @return
      */
     public void replaceJSONSource(String jsonString)
     {
@@ -277,8 +273,6 @@ public class CPObjectDatabaseTable
     
     /**
      * 保持してあるJSONデータに引数JSONデータを追加
-     * 
-     * @param jsonObject
      */
     public void appendJSONRecord(JSONObject jsonObject)
     {
@@ -290,8 +284,8 @@ public class CPObjectDatabaseTable
     /**
      * 保持してあるJSONデータからキーに合致したデータを削除
      * 
-     * @param key
-     * @param value
+     * @param key   検索キー
+     * @param value 検索値
      */
     public void removeJSONRecord(String key, Object value)
     {
@@ -329,10 +323,10 @@ public class CPObjectDatabaseTable
     /**
      * 保持してあるJSONデータからキーに合致したレコードの特定キーの値を更新する
      * 
-     * @param searchKey
-     * @param searchValue
-     * @param replaceKey
-     * @param replaceValue
+     * @param searchKey     検索キー
+     * @param searchValue   検索値
+     * @param replaceKey    変換キー
+     * @param replaceValue  変換値
      */
     public void updateJSONRecord(String searchKey, Object searchValue, String replaceKey, Object replaceValue)
     {
@@ -371,9 +365,9 @@ public class CPObjectDatabaseTable
     /**
      * 保持してあるJSONデータからキーに合致したレコードを削除して新たなJSONObjectを挿入する
      * 
-     * @param searchKey
-     * @param searchValue
-     * @param replaceJSONObject
+     * @param searchKey         検索キー
+     * @param searchValue       検索値
+     * @param replaceJSONObject 変換JSON
      */
     public void replaceJSONRecord(String searchKey, Object searchValue, JSONObject replaceJSONObject)
     {
@@ -420,7 +414,7 @@ public class CPObjectDatabaseTable
     /**
      * to JSONArray
      * 
-     * @return
+     * @return  変換JSONArray
      */
     public JSONArray toJSONArray()
     {
@@ -431,7 +425,8 @@ public class CPObjectDatabaseTable
         }
         return jsonArray;
     }
-    
+
+    @Override
     public String toString()
     {
         return this.tableName + " processing : " + Boolean.valueOf(this.processing).toString();

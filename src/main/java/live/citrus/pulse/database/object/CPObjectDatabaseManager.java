@@ -23,13 +23,15 @@ public class CPObjectDatabaseManager
     
     /** データ保存時のテーブル接頭辞 **/
     private Map<String, String> tableMapping;
-    
-    
+
+
+
+
     /**
      * directory
      * 
-     * @param directory
-     * @param tablePrefixes
+     * @param String directory
+     * @param Map<String, String> tablePrefixes
      */
     public CPObjectDatabaseManager(String directory, Map<String, String> tableMapping)
     {
@@ -101,10 +103,12 @@ public class CPObjectDatabaseManager
         return result;
     }
 
+
+
     /**
      * テーブル利用可能か確認
-     * 
-     * @param tableName
+     *
+     * @param String[] tableName
      */
     public boolean availableTable(String[] tableNames)
     {
@@ -228,7 +232,10 @@ public class CPObjectDatabaseManager
         
         record.bindFromJSON(jsonObject);
         record.columnComplete();
-        table.addRecord(record);
+        if(record.enabled() == true)
+        {
+            table.addRecord(record);
+        }
     }
     
     /**

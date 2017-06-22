@@ -18,7 +18,7 @@ public class CPFxStage extends Stage
     public CPFxParent innerPane;
     
     /** シーン **/
-    protected Scene scene;
+    public Scene scene;
     
     /** 読み込み済みかどうか **/
     protected boolean loaded = false;

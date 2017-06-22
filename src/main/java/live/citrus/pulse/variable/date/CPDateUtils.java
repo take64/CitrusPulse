@@ -1,7 +1,9 @@
 package live.citrus.pulse.variable.date;
 
 import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
@@ -261,6 +263,20 @@ public class CPDateUtils
         long hour = (second / 3600) % 24;
         long day = (second / (3600 * 24));
         return String.format(format, (second % 60), minute, hour, day);
+    }
+    
+    /**
+     * Date を LocalDate に変換
+     * 
+     * @param date
+     * @return
+     */
+    public static LocalDate toLocalDate(Date date)
+    {
+        Instant instant = date.toInstant();
+        ZoneId zone = ZoneId.systemDefault();
+        LocalDate localDate = instant.atZone(zone).toLocalDate();
+        return localDate;
     }
     
 }

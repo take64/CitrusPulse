@@ -72,4 +72,28 @@ public class CPFxDialog
             }
         }
     }
+
+    /**
+     * OKエラーダイアログを生成し、表示する
+     * 
+     * @param title
+     * @param content
+     * @param yesCallback
+     */
+    public static void showOKError(String title, String content, CPFxAlertCallback okCallback)
+    {
+        Alert alert = new Alert(AlertType.ERROR, "", ButtonType.OK);
+        alert.setTitle(title);
+        alert.getDialogPane().setHeaderText(title);
+        alert.getDialogPane().setContentText(content);
+        Optional<ButtonType> button = alert.showAndWait();
+        
+        if(button.get().equals(ButtonType.OK) == true)
+        {
+            if(okCallback != null)
+            {
+                okCallback.callback();
+            }
+        }
+    }
 }
