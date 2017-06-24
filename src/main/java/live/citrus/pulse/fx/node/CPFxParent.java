@@ -1,20 +1,9 @@
 package live.citrus.pulse.fx.node;
 
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
-import java.lang.reflect.Field;
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
-import java.net.URL;
-import java.util.ResourceBundle;
-
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.ScrollPane;
+import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import live.citrus.pulse.database.object.CPObjectDatabaseRecord;
@@ -22,6 +11,15 @@ import live.citrus.pulse.fx.CPFX;
 import live.citrus.pulse.fx.CPFxUtils;
 import live.citrus.pulse.fx.stage.CPFxStage;
 import live.citrus.pulse.log.CPLogger;
+
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+import java.lang.reflect.Field;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
+import java.net.URL;
+import java.time.LocalDate;
+import java.util.ResourceBundle;
 
 public abstract class CPFxParent implements Initializable
 {
@@ -282,6 +280,11 @@ public abstract class CPFxParent implements Initializable
             else if(thisField.getType() == RadioButton.class)
             {
                 ((RadioButton)object).setSelected(value.equals(1));
+            }
+            // DatePicker
+            else if(thisField.getType() == DatePicker.class)
+            {
+                ((DatePicker)object).setValue(LocalDate.parse((String)value));
             }
         }
     }

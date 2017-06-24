@@ -1,14 +1,14 @@
 package live.citrus.pulse.http;
 
+import live.citrus.pulse.file.CPFileSize;
+import live.citrus.pulse.log.CPLogger;
+
 import java.lang.reflect.Method;
 import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import live.citrus.pulse.file.CPFileSize;
-import live.citrus.pulse.log.CPLogger;
 
 /**
  * Http通信データ保持
@@ -183,7 +183,7 @@ public class CPHttpData
      * メソッドがCPHttpUriPatternに合致するかどうか
      * 
      * @param httpData
-     * @param clazz
+     * @param method
      * @return
      */
     public static boolean isUrlPatternMethod(CPHttpData httpData, Method method)

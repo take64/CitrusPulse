@@ -1,11 +1,11 @@
 package live.citrus.pulse.fx.dialog;
 
-import java.util.Optional;
-
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
 import live.citrus.pulse.fx.CPFxAlertCallback;
+
+import java.util.Optional;
 
 /**
  * ダイアログ系クラス
@@ -53,8 +53,7 @@ public class CPFxDialog
      * 
      * @param title
      * @param content
-     * @param yesCallback
-     * @param noCallback
+     * @param okCallback
      */
     public static void showOKAlert(String title, String content, CPFxAlertCallback okCallback)
     {
@@ -78,7 +77,7 @@ public class CPFxDialog
      * 
      * @param title
      * @param content
-     * @param yesCallback
+     * @param okCallback
      */
     public static void showOKError(String title, String content, CPFxAlertCallback okCallback)
     {

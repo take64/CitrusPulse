@@ -1,13 +1,5 @@
 package live.citrus.pulse.database.object;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
-import java.util.HashMap;
-import java.util.Map;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
-
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
@@ -17,6 +9,13 @@ import live.citrus.pulse.fx.CPFX;
 import live.citrus.pulse.fx.node.CPFxParent;
 import live.citrus.pulse.log.CPLogger;
 import live.citrus.pulse.variable.date.CPDateUtils;
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
+import java.util.HashMap;
+import java.util.Map;
 
 public abstract class CPObjectDatabaseRecord
 {
@@ -95,7 +94,7 @@ public abstract class CPObjectDatabaseRecord
     /**
      * JSONからフィールドデータをbind
      * 
-     * @param pane
+     * @param jsonObject
      */
     public void bindFromJSON(JSONObject jsonObject)
     {
@@ -136,19 +135,19 @@ public abstract class CPObjectDatabaseRecord
                     }
                     else if(value instanceof Integer && thisFieldClass == String.class)
                     {
-                        value = ((Integer)value).toString();
+                        value = value.toString();
                     }
                     else if(value instanceof Integer && thisFieldClass == Long.class)
                     {
-                        value = Long.valueOf(((Integer)value).longValue());
+                        value = ((Integer) value).longValue();
                     }
                     else if(value instanceof Integer && thisFieldClass == Double.class)
                     {
-                        value = Double.valueOf(((Integer)value).doubleValue());
+                        value = ((Integer) value).doubleValue();
                     }
                     else if(value instanceof Long && thisFieldClass == Integer.class)
                     {
-                        value = Integer.valueOf(((Long)value).intValue());
+                        value = ((Long) value).intValue();
                     }
                     
                     // フィールドに設定

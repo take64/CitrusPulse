@@ -1,17 +1,16 @@
 package live.citrus.pulse.database.object;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
+import live.citrus.pulse.file.CPFile;
+import live.citrus.pulse.log.CPLogger;
+import live.citrus.pulse.variable.string.CPStringUtils;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import live.citrus.pulse.file.CPFile;
-import live.citrus.pulse.log.CPLogger;
-import live.citrus.pulse.variable.string.CPStringUtils;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class CPObjectDatabaseManager
 {
@@ -30,8 +29,8 @@ public class CPObjectDatabaseManager
     /**
      * directory
      * 
-     * @param String directory
-     * @param Map<String, String> tablePrefixes
+     * @param directory
+     * @param tableMapping
      */
     public CPObjectDatabaseManager(String directory, Map<String, String> tableMapping)
     {
@@ -43,7 +42,6 @@ public class CPObjectDatabaseManager
     /**
      * テーブル呼び出し、なければ作成
      * @param <T>
-     * 
      * @param clazz
      */
     public <T> CPObjectDatabaseTable callTable(Class<T> clazz)
@@ -108,7 +106,7 @@ public class CPObjectDatabaseManager
     /**
      * テーブル利用可能か確認
      *
-     * @param String[] tableName
+     * @param tableNames
      */
     public boolean availableTable(String[] tableNames)
     {

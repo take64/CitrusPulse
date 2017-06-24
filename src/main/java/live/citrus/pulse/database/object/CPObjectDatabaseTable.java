@@ -228,7 +228,7 @@ public class CPObjectDatabaseTable
     public CPObjectDatabaseRecord searchRecord(String key, Object value)
     {
         CPObjectDatabaseRecord result = null;
-        List<CPObjectDatabaseRecord> entities = this.searchRecords(レコード, value);
+        List<CPObjectDatabaseRecord> entities = this.searchRecords(key, value);
         if(entities.isEmpty() == false)
         {
             result = entities.get(0);

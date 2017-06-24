@@ -43,8 +43,8 @@ public class CPLogger
         int indent = 0;
         for(String split : splits)
         {
-            if(split.startsWith("]") == true || split.endsWith("]") == true
-                    || split.startsWith("}") == true || split.endsWith("}") == true)
+            if((split.startsWith("]") == true) || (split.endsWith("]") == true)
+                    || (split.startsWith("}") == true) || (split.endsWith("}") == true))
             {
                 indent--;
             }
