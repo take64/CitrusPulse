@@ -64,7 +64,7 @@ public class CPLoggerTimer
     /**
      * 計測タスク出力
      * 
-     * @param name
+     * @param sortColumn
      */
     public static void output(String sortColumn)
     {

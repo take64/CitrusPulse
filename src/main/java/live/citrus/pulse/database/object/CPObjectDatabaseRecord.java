@@ -1,13 +1,5 @@
 package live.citrus.pulse.database.object;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
-import java.util.HashMap;
-import java.util.Map;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
-
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
@@ -17,6 +9,13 @@ import live.citrus.pulse.fx.CPFX;
 import live.citrus.pulse.fx.node.CPFxParent;
 import live.citrus.pulse.log.CPLogger;
 import live.citrus.pulse.variable.date.CPDateUtils;
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
+import java.util.HashMap;
+import java.util.Map;
 
 public abstract class CPObjectDatabaseRecord
 {
@@ -31,7 +30,16 @@ public abstract class CPObjectDatabaseRecord
      * フィールド内容の補完
      */
     abstract public void columnComplete();
-
+    
+    /**
+     * trueの場合はレコードが生き、falseは死に
+     * @return
+     */
+    public boolean enabled()
+    {
+        return true;
+    }
+    
     /**
      * 画面からフィールドデータをbind
      * 
@@ -45,77 +53,35 @@ public abstract class CPObjectDatabaseRecord
             
             for(Field thisField : thisFields)
             {
-                // アノテーションの貼ってあるフィールド
-                if(thisField.isAnnotationPresent(CPFX.class) == true)
+                // アノテーションの貼ってないフィールドは飛ばす
+                if(thisField.isAnnotationPresent(CPFX.class) == false)
                 {
-                    Class<?> thisFieldClass = thisField.getType();
-                    
-                    // アノテーションの値からフィールド名を取得
-                    CPFX cpfx = thisField.getAnnotationsByType(CPFX.class)[0];
-                    String fieldName = cpfx.value();
-                    // ペーンのフィールドを取得
-                    Field paneField = pane.getClass().getDeclaredField(fieldName);
-                    if(paneField.isAnnotationPresent(FXML.class) == true)
-                    {
-                        paneField.setAccessible(true);
-                        
-                        // ペーンのパーツ
-                        Object object = paneField.get(pane);
-                        
-                        // ペーンの値
-                        Object value = null;
-                        
-                        // フィールドのクラスによって取得方法を変える
-                        // ChoiceBox
-                        if(paneField.getType() == ChoiceBox.class)
-                        {
-                            value = ((ChoiceBox<?>)object).getValue();
-                        }
-                        // CheckBox
-                        else if(paneField.getType() == CheckBox.class)
-                        {
-                            value = Integer.valueOf(((CheckBox)object).isSelected() == true ? 1 : 0);
-                        }
-                        // RadioButton
-                        else if(paneField.getType() == RadioButton.class)
-                        {
-                            value = Integer.valueOf(((RadioButton)object).isSelected() == true ? 1 : 0);
-                        }
-                        // DatePicker
-                        else if(paneField.getType() == DatePicker.class)
-                        {
-                            value = CPDateUtils.format("yyyy-MM-dd", ((DatePicker)object).getValue());
-                        }
-                        
-                        if(value.equals("null") == true)
-                        {
-                            value = null;
-                        }
-                        
-                        // 変換
-                        if(value instanceof Integer)
-                        {
-                            // Integer -> String
-                            if(thisFieldClass == String.class)
-                            {
-                                value = value.toString();
-                            }
-                        }
-                        else if(value instanceof String)
-                        {
-                            // String -> Integer
-                            if(thisFieldClass == Integer.class)
-                            {
-                                value = Integer.valueOf((String)value);
-                            }
-                        }
-                        
-                        // 値設定
-                        if(value != null && value.equals("") == false)
-                        {
-                            thisField.set(this, value);
-                        }
-                    }
+                    continue;
+                }
+
+                // アノテーションの値からフィールド名を取得
+                CPFX cpfx = thisField.getAnnotationsByType(CPFX.class)[0];
+                String fieldName = cpfx.value();
+
+                // ペーンのフィールドを取得
+                Field paneField = pane.getClass().getDeclaredField(fieldName);
+
+                // ペーンのフィールドがFXMLではなければスルー
+                if(paneField.isAnnotationPresent(FXML.class) == false)
+                {
+                    continue;
+                }
+
+                // ペーンの値
+                Object value = CPObjectDatabaseRecord.callPaneFieldValue(pane, paneField);
+
+                // 変換
+                value = CPObjectDatabaseRecord.convertValueForField(value, thisField);
+
+                // 値設定
+                if(value != null && value.equals("") == false)
+                {
+                    thisField.set(this, value);
                 }
             }
         }
@@ -128,7 +94,7 @@ public abstract class CPObjectDatabaseRecord
     /**
      * JSONからフィールドデータをbind
      * 
-     * @param pane
+     * @param jsonObject
      */
     public void bindFromJSON(JSONObject jsonObject)
     {
@@ -169,19 +135,19 @@ public abstract class CPObjectDatabaseRecord
                     }
                     else if(value instanceof Integer && thisFieldClass == String.class)
                     {
-                        value = ((Integer)value).toString();
+                        value = value.toString();
                     }
                     else if(value instanceof Integer && thisFieldClass == Long.class)
                     {
-                        value = Long.valueOf(((Integer)value).longValue());
+                        value = ((Integer) value).longValue();
                     }
                     else if(value instanceof Integer && thisFieldClass == Double.class)
                     {
-                        value = Double.valueOf(((Integer)value).doubleValue());
+                        value = ((Integer) value).doubleValue();
                     }
                     else if(value instanceof Long && thisFieldClass == Integer.class)
                     {
-                        value = Integer.valueOf(((Long)value).intValue());
+                        value = ((Long) value).intValue();
                     }
                     
                     // フィールドに設定
@@ -261,4 +227,85 @@ public abstract class CPObjectDatabaseRecord
         
         return callback;
     }
+
+
+    /**
+     * ペーンからフィールドの値を取得する
+     *
+     * @param pane      ペーン
+     * @param paneField ペーンフィールド
+     * @return          ペーンフィールドの値
+     * @throws IllegalAccessException
+     */
+    private static Object callPaneFieldValue(CPFxParent pane, Field paneField) throws IllegalAccessException
+    {
+        paneField.setAccessible(true);
+
+        // ペーンのパーツ
+        Object object = paneField.get(pane);
+
+        // ペーンの値
+        Object value = null;
+
+        // ChoiceBox
+        if(paneField.getType() == ChoiceBox.class)
+        {
+            value = ((ChoiceBox<?>)object).getValue();
+        }
+        // CheckBox
+        else if(paneField.getType() == CheckBox.class)
+        {
+            value = ((CheckBox)object).isSelected() == true ? 1 : 0;
+        }
+        // RadioButton
+        else if(paneField.getType() == RadioButton.class)
+        {
+            value = ((RadioButton)object).isSelected() == true ? 1 : 0;
+        }
+        // DatePicker
+        else if(paneField.getType() == DatePicker.class)
+        {
+            value = CPDateUtils.format("yyyy-MM-dd", ((DatePicker)object).getValue());
+        }
+
+        if(value.equals("null") == true)
+        {
+            value = null;
+        }
+
+        return value;
+    }
+
+
+    /**
+     * 値をフィールドによって変換する
+     *
+     * @param value     値
+     * @param thisField 対象フィールド
+     * @return          変換値
+     */
+    private static Object convertValueForField(Object value, Field thisField)
+    {
+        Class<?> thisFieldClass = thisField.getType();
+
+        if(value instanceof Integer)
+        {
+            // Integer -> String
+            if(thisFieldClass == String.class)
+            {
+                value = value.toString();
+            }
+        }
+        else if(value instanceof String)
+        {
+            // String -> Integer
+            if(thisFieldClass == Integer.class)
+            {
+                value = Integer.valueOf((String)value);
+            }
+        }
+
+        return value;
+    }
+
 }

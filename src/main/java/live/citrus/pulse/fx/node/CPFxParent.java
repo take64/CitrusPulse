@@ -1,20 +1,9 @@
 package live.citrus.pulse.fx.node;
 
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
-import java.lang.reflect.Field;
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
-import java.net.URL;
-import java.util.ResourceBundle;
-
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.ScrollPane;
+import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import live.citrus.pulse.database.object.CPObjectDatabaseRecord;
@@ -22,6 +11,15 @@ import live.citrus.pulse.fx.CPFX;
 import live.citrus.pulse.fx.CPFxUtils;
 import live.citrus.pulse.fx.stage.CPFxStage;
 import live.citrus.pulse.log.CPLogger;
+
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+import java.lang.reflect.Field;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
+import java.net.URL;
+import java.time.LocalDate;
+import java.util.ResourceBundle;
 
 public abstract class CPFxParent implements Initializable
 {
@@ -147,7 +145,7 @@ public abstract class CPFxParent implements Initializable
             InputStream inputStream = new ByteArrayInputStream(fxmlSource.getBytes());
             
             FXMLLoader loader = new FXMLLoader();
-            AnchorPane child = (AnchorPane)loader.load(inputStream);
+            AnchorPane child = loader.load(inputStream);
             T controller = loader.getController();
             pane = (CPFxParent)controller;
             pane.childPane = child;
@@ -184,74 +182,110 @@ public abstract class CPFxParent implements Initializable
                 // アノテーションの貼ってあるフィールド
                 if(thisField.isAnnotationPresent(FXML.class) == true)
                 {
-                    // フィールド名を取得
-                    String fieldName = thisField.getName();
-                    
                     // entityのフィールドを取得
-                    Field entityField = null;
-                    if(entity != null)
-                    {
-                        Field[] entityFields = entity.getClass().getDeclaredFields();
-                        for(Field field : entityFields)
-                        {
-                            CPFX cpfx = field.getAnnotation(CPFX.class);
-                            if(cpfx != null)
-                            {
-                                String cpfxFieldName = cpfx.value();
-                                if(fieldName.equals(cpfxFieldName) == true)
-                                {
-                                    entityField = field;
-                                    break;
-                                }
-                            }
-                        }
-                    }
-                    if(entityField != null && entityField.isAnnotationPresent(CPFX.class) == true)
-                    {
-                        thisField.setAccessible(true);
-                        entityField.setAccessible(true);
-                        Object value = null;
-                        if(entity != null)
-                        {
-                            value = entityField.get(entity);
-                        }
-                        
-                        Object object = thisField.get(this);
-                        
-                        // ChoiceBox
-                        if(thisField.getType() == ChoiceBox.class)
-                        {
-                            ParameterizedType paramType = (ParameterizedType)thisField.getGenericType();
-                            for(Type classType : paramType.getActualTypeArguments())
-                            {
-                                if(String.class.getName().equals(classType.getTypeName()) == true)
-                                {
-                                    ((ChoiceBox<String>)object).setValue(String.valueOf(value));
-                                    break;
-                                }
-                            }
-                        }
-                        // CheckBox
-                        else if(thisField.getType() == CheckBox.class)
-                        {
-                            ((CheckBox)object).setSelected(
-                                    ((Integer)value).equals(Integer.valueOf(1))
-                                    );
-                        }
-                        // RadioButton
-                        else if(thisField.getType() == RadioButton.class)
-                        {
-                            ((RadioButton)object).setSelected(
-                                    ((Integer)value).equals(Integer.valueOf(1))
-                                    );
-                        }
-                    }
+                    Field entityField = CPFxParent.callEntityField(entity, thisField);
+
+                    // フィールドに値を設定
+                    CPFxParent.bindEntityField(entity, entityField, thisField, this);
                 }
             }
         }
         catch(Exception e)
         {
             CPLogger.debug(e);
+        }
+    }
+
+
+    /**
+     * レコードから合致するFieldを取得
+     *
+     * @param entity    レコード
+     * @param thisField フィールド
+     * @return          合致したフィールド
+     */
+    private static Field callEntityField(CPObjectDatabaseRecord entity, Field thisField)
+    {
+        // フィールド名を取得
+        String fieldName = thisField.getName();
+
+        // entityのフィールドを取得
+        Field entityField = null;
+        if(entity != null)
+        {
+            Field[] entityFields = entity.getClass().getDeclaredFields();
+            for(Field field : entityFields)
+            {
+                CPFX cpfx = field.getAnnotation(CPFX.class);
+                // nullであればスルー
+                if(cpfx == null)
+                {
+                    continue;
+                }
+
+                String cpfxFieldName = cpfx.value();
+                if(fieldName.equals(cpfxFieldName) == true)
+                {
+                    entityField = field;
+                    break;
+                }
+            }
+        }
+        return entityField;
+    }
+
+
+    /**
+     * レコードの内容をビューに設定する
+     *
+     * @param entity        レコード
+     * @param entityField   レコードのフィールド
+     * @param thisField     ビューのフィールド
+     * @param pane          ビュー
+     * @throws IllegalAccessException
+     */
+    private static void bindEntityField(CPObjectDatabaseRecord entity, Field entityField, Field thisField, CPFxParent pane) throws IllegalAccessException
+    {
+        if(entityField != null && entityField.isAnnotationPresent(CPFX.class) == true)
+        {
+            thisField.setAccessible(true);
+            entityField.setAccessible(true);
+            Object value = null;
+            if(entity != null)
+            {
+                value = entityField.get(entity);
+            }
+
+            Object object = thisField.get(pane);
+
+            // ChoiceBox
+            if(thisField.getType() == ChoiceBox.class)
+            {
+                ParameterizedType paramType = (ParameterizedType)thisField.getGenericType();
+                for(Type classType : paramType.getActualTypeArguments())
+                {
+                    if(String.class.getName().equals(classType.getTypeName()) == true)
+                    {
+                        ((ChoiceBox<String>)object).setValue(String.valueOf(value));
+                        break;
+                    }
+                }
+            }
+            // CheckBox
+            else if(thisField.getType() == CheckBox.class)
+            {
+                ((CheckBox)object).setSelected(value.equals(1));
+            }
+            // RadioButton
+            else if(thisField.getType() == RadioButton.class)
+            {
+                ((RadioButton)object).setSelected(value.equals(1));
+            }
+            // DatePicker
+            else if(thisField.getType() == DatePicker.class)
+            {
+                ((DatePicker)object).setValue(LocalDate.parse((String)value));
+            }
         }
     }
 }

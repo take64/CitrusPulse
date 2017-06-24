@@ -1,9 +1,5 @@
 package live.citrus.pulse.fx.stage;
 
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
-import java.net.URL;
-
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -12,13 +8,17 @@ import live.citrus.pulse.fx.CPFxUtils;
 import live.citrus.pulse.fx.node.CPFxParent;
 import live.citrus.pulse.log.CPLogger;
 
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+import java.net.URL;
+
 public class CPFxStage extends Stage
 {
     /** 内包するペーン **/
     public CPFxParent innerPane;
     
     /** シーン **/
-    protected Scene scene;
+    public Scene scene;
     
     /** 読み込み済みかどうか **/
     protected boolean loaded = false;
@@ -74,7 +74,7 @@ public class CPFxStage extends Stage
      * @param <T>
      * 
      * @param clazz
-     * @param fxmlname
+     * @param cssname
      */
     public <T> void loadStylesheet(Class<T> clazz, String cssname)
     {

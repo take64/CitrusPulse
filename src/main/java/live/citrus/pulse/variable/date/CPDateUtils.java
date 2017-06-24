@@ -1,14 +1,16 @@
 package live.citrus.pulse.variable.date;
 
+import live.citrus.pulse.log.CPLogger;
+
 import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-
-import live.citrus.pulse.log.CPLogger;
 
 /**
  * 日付ユーティリティ
@@ -29,7 +31,7 @@ public class CPDateUtils
     /**
      * 現在時間をフォーマット済み文字列で取得
      * 
-     * @param format
+     * @param formatString
      * @return
      */
     public static String now(String formatString)
@@ -225,7 +227,7 @@ public class CPDateUtils
     /**
      * 時間数値を文字列に変更
      * 
-     * @param time
+     * @param millisecond
      * @return
      */
     public static String timeString(long millisecond)
@@ -237,7 +239,7 @@ public class CPDateUtils
     /**
      * yyyyMMdd日付文字列をyyyy-MM-dd日付文字列に
      * 
-     * @param time
+     * @param dateString
      * @return
      */
     public static String joinHyphen(String dateString)
@@ -251,7 +253,7 @@ public class CPDateUtils
     /**
      * 時間数値を文字列に変更
      * 
-     * @param time
+     * @param millisecond
      * @return
      */
     public static String timeString(String format, long millisecond)
@@ -261,6 +263,20 @@ public class CPDateUtils
         long hour = (second / 3600) % 24;
         long day = (second / (3600 * 24));
         return String.format(format, (second % 60), minute, hour, day);
+    }
+    
+    /**
+     * Date を LocalDate に変換
+     * 
+     * @param date
+     * @return
+     */
+    public static LocalDate toLocalDate(Date date)
+    {
+        Instant instant = date.toInstant();
+        ZoneId zone = ZoneId.systemDefault();
+        LocalDate localDate = instant.atZone(zone).toLocalDate();
+        return localDate;
     }
     
 }

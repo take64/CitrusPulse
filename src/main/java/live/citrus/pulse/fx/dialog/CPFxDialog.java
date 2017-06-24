@@ -1,11 +1,11 @@
 package live.citrus.pulse.fx.dialog;
 
-import java.util.Optional;
-
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
 import live.citrus.pulse.fx.CPFxAlertCallback;
+
+import java.util.Optional;
 
 /**
  * ダイアログ系クラス
@@ -53,12 +53,35 @@ public class CPFxDialog
      * 
      * @param title
      * @param content
-     * @param yesCallback
-     * @param noCallback
+     * @param okCallback
      */
     public static void showOKAlert(String title, String content, CPFxAlertCallback okCallback)
     {
         Alert alert = new Alert(AlertType.CONFIRMATION, "", ButtonType.OK);
+        alert.setTitle(title);
+        alert.getDialogPane().setHeaderText(title);
+        alert.getDialogPane().setContentText(content);
+        Optional<ButtonType> button = alert.showAndWait();
+        
+        if(button.get().equals(ButtonType.OK) == true)
+        {
+            if(okCallback != null)
+            {
+                okCallback.callback();
+            }
+        }
+    }
+
+    /**
+     * OKエラーダイアログを生成し、表示する
+     * 
+     * @param title
+     * @param content
+     * @param okCallback
+     */
+    public static void showOKError(String title, String content, CPFxAlertCallback okCallback)
+    {
+        Alert alert = new Alert(AlertType.ERROR, "", ButtonType.OK);
         alert.setTitle(title);
         alert.getDialogPane().setHeaderText(title);
         alert.getDialogPane().setContentText(content);

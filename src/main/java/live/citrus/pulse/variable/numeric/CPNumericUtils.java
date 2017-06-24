@@ -38,8 +38,8 @@ public class CPNumericUtils
     /**
      * 加算( Double )
      * 
-     * @param integer1
-     * @param integer2
+     * @param value1
+     * @param value2
      * @return
      */
     public static Double plus(Double value1, Double value2)
@@ -51,8 +51,8 @@ public class CPNumericUtils
     /**
      * 減算( Integer )
      * 
-     * @param integer1
-     * @param integer2
+     * @param value1
+     * @param value2
      * @return
      */
     public static Integer minus(Integer value1, Integer value2)
@@ -121,7 +121,7 @@ public class CPNumericUtils
     /**
      * 数値からフォーマット文字列を取得
      * 
-     * @param int
+     * @param value
      * @return
      */
     public static String format(int value)
