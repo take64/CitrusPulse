@@ -93,7 +93,7 @@ public abstract class CPFxParent implements Initializable
      */
     public void setTitle(String title)
     {
-        if(this.parentStage != null)
+        if (this.parentStage != null)
         {
             this.parentStage.setTitle(title);
         }
@@ -149,11 +149,11 @@ public abstract class CPFxParent implements Initializable
             T controller = loader.getController();
             pane = (CPFxParent)controller;
             pane.childPane = child;
-            if(root instanceof Pane)
+            if (root instanceof Pane)
             {
                 ((Pane)root).getChildren().add(child);
             }
-            else if(root instanceof ScrollPane)
+            else if (root instanceof ScrollPane)
             {
                 ((ScrollPane)root).setContent(child);
             }
@@ -177,10 +177,10 @@ public abstract class CPFxParent implements Initializable
         {
             Field[] thisFields = this.getClass().getDeclaredFields();
             
-            for(Field thisField : thisFields)
+            for (Field thisField : thisFields)
             {
                 // アノテーションの貼ってあるフィールド
-                if(thisField.isAnnotationPresent(FXML.class) == true)
+                if (thisField.isAnnotationPresent(FXML.class) == true)
                 {
                     // entityのフィールドを取得
                     Field entityField = CPFxParent.callEntityField(entity, thisField);
@@ -211,20 +211,20 @@ public abstract class CPFxParent implements Initializable
 
         // entityのフィールドを取得
         Field entityField = null;
-        if(entity != null)
+        if (entity != null)
         {
             Field[] entityFields = entity.getClass().getDeclaredFields();
-            for(Field field : entityFields)
+            for (Field field : entityFields)
             {
                 CPFX cpfx = field.getAnnotation(CPFX.class);
                 // nullであればスルー
-                if(cpfx == null)
+                if (cpfx == null)
                 {
                     continue;
                 }
 
                 String cpfxFieldName = cpfx.value();
-                if(fieldName.equals(cpfxFieldName) == true)
+                if (fieldName.equals(cpfxFieldName) == true)
                 {
                     entityField = field;
                     break;
@@ -246,12 +246,12 @@ public abstract class CPFxParent implements Initializable
      */
     private static void bindEntityField(CPObjectDatabaseRecord entity, Field entityField, Field thisField, CPFxParent pane) throws IllegalAccessException
     {
-        if(entityField != null && entityField.isAnnotationPresent(CPFX.class) == true)
+        if (entityField != null && entityField.isAnnotationPresent(CPFX.class) == true)
         {
             thisField.setAccessible(true);
             entityField.setAccessible(true);
             Object value = null;
-            if(entity != null)
+            if (entity != null)
             {
                 value = entityField.get(entity);
             }
@@ -259,12 +259,12 @@ public abstract class CPFxParent implements Initializable
             Object object = thisField.get(pane);
 
             // ChoiceBox
-            if(thisField.getType() == ChoiceBox.class)
+            if (thisField.getType() == ChoiceBox.class)
             {
                 ParameterizedType paramType = (ParameterizedType)thisField.getGenericType();
-                for(Type classType : paramType.getActualTypeArguments())
+                for (Type classType : paramType.getActualTypeArguments())
                 {
-                    if(String.class.getName().equals(classType.getTypeName()) == true)
+                    if (String.class.getName().equals(classType.getTypeName()) == true)
                     {
                         ((ChoiceBox<String>)object).setValue(String.valueOf(value));
                         break;
@@ -272,17 +272,17 @@ public abstract class CPFxParent implements Initializable
                 }
             }
             // CheckBox
-            else if(thisField.getType() == CheckBox.class)
+            else if (thisField.getType() == CheckBox.class)
             {
                 ((CheckBox)object).setSelected(value.equals(1));
             }
             // RadioButton
-            else if(thisField.getType() == RadioButton.class)
+            else if (thisField.getType() == RadioButton.class)
             {
                 ((RadioButton)object).setSelected(value.equals(1));
             }
             // DatePicker
-            else if(thisField.getType() == DatePicker.class)
+            else if (thisField.getType() == DatePicker.class)
             {
                 ((DatePicker)object).setValue(LocalDate.parse((String)value));
             }

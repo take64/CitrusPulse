@@ -20,7 +20,7 @@ public class CPLoggerTimer
         String name = stackTraceElement.getFileName().replaceAll(".java", "") + "." + stackTraceElement.getMethodName();
         
         CPLoggerTimerTask currentTask = CPLoggerTimer.call(name);
-        if(currentTask == null)
+        if (currentTask == null)
         {
             currentTask = new CPLoggerTimerTask(name);
             CPLoggerTimer.tasks.add(currentTask);
@@ -37,7 +37,7 @@ public class CPLoggerTimer
         String name = stackTraceElement.getFileName().replaceAll(".java", "") + "." + stackTraceElement.getMethodName();
         
         CPLoggerTimerTask currentTask = CPLoggerTimer.call(name);
-        if(currentTask != null)
+        if (currentTask != null)
         {
             currentTask.end();
         }
@@ -51,9 +51,9 @@ public class CPLoggerTimer
     public static CPLoggerTimerTask call(String name)
     {
         CPLoggerTimerTask currentTask = null;
-        for(CPLoggerTimerTask task : CPLoggerTimer.tasks)
+        for (CPLoggerTimerTask task : CPLoggerTimer.tasks)
         {
-            if(task.name.equals(name) == true)
+            if (task.name.equals(name) == true)
             {
                 currentTask = task;
             }
@@ -88,7 +88,7 @@ public class CPLoggerTimer
             CPLogger.debug(" %4s %56s %16s %16s %16s \n", separater0, separater1, separater2, separater2, separater3);
             
             // ソート
-            if(sortColumn.equals("totalMillisecond") == true)
+            if (sortColumn.equals("totalMillisecond") == true)
             {
                 taskList.sort(new Comparator<CPLoggerTimerTask>() {
                     public int compare(CPLoggerTimerTask o1, CPLoggerTimerTask o2)
@@ -100,13 +100,13 @@ public class CPLoggerTimer
             
             // 内容
             int size = taskList.size();
-            for(int i = 0; i < size; i++)
+            for (int i = 0; i < size; i++)
             {
                 CPLoggerTimerTask task = taskList.get(i);
                 double totalMsec = task.totalMillisecond.doubleValue();
                 double avgMsec = task.avgMillisecond.doubleValue();
                 String name = task.name;
-                if(name.length() > 56) { name = name.substring(0, 56); }
+                if (name.length() > 56) { name = name.substring(0, 56); }
                 CPLogger.debug("|%4s|%-56s|%16s|%16s|%16s|\n",
                         String.valueOf(i+1),
                         name, 

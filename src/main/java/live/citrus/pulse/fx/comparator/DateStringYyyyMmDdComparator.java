@@ -14,7 +14,7 @@ public class DateStringYyyyMmDdComparator implements Comparator<String>
 {
     public int compare(String o1, String o2)
     {
-        if(o1 == null || o2 == null || o1.equals("") == true || o2.equals("") == true)
+        if (o1 == null || o2 == null || o1.equals("") == true || o2.equals("") == true)
         {
             return 1;
         }

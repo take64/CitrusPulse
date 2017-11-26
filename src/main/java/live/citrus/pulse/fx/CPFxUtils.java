@@ -66,7 +66,7 @@ public class CPFxUtils
     {
         // キャッシュ読み込みを試みる
         String result = CPFxUtils.fxmlCaches.get(filepath);
-        if(result != null)
+        if (result != null)
         {
             CPLogger.debug("    -> use cache");
             return result;
@@ -82,7 +82,7 @@ public class CPFxUtils
             while((line = bufferedReader.readLine()) != null)
             {
                 // includeを飛ばす
-                if(line.contains("<fx:include") == true)
+                if (line.contains("<fx:include") == true)
                 {
                     CPLogger.debug("    -> include through : " + line.replaceAll("  ", ""));
                     continue;

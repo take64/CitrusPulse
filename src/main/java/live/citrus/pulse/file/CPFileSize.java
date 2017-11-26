@@ -89,22 +89,22 @@ public class CPFileSize
         String mark = "";
         
         // 短縮する場合
-        if(contraction == true)
+        if (contraction == true)
         {
             // KByte
-            if(size >= 1024)
+            if (size >= 1024)
             {
                 size = size / 1024;
                 mark = "K";
             }
             // MByte
-            if(size >= 1024)
+            if (size >= 1024)
             {
                 size = size / 1024;
                 mark = "M";
             }
             // GByte
-            if(size >= 1024)
+            if (size >= 1024)
             {
                 size = size / 1024;
                 mark = "G";

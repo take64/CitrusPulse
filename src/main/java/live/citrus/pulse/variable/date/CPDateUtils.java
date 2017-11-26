@@ -3,7 +3,6 @@ package live.citrus.pulse.variable.date;
 import live.citrus.pulse.log.CPLogger;
 
 import java.text.SimpleDateFormat;
-import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
@@ -71,7 +70,7 @@ public class CPDateUtils
         DateTimeFormatter format = CPDateUtils.callFormatLocalDate(formatString);
         
         String result = "";
-        if(date != null)
+        if (date != null)
         {
             result = format.format(date);
         }
@@ -98,7 +97,7 @@ public class CPDateUtils
         {
             CPLogger.debug(e);
         }
-        if(date == null)
+        if (date == null)
         {
             date = new Date();
         }
@@ -115,7 +114,7 @@ public class CPDateUtils
     {
         SimpleDateFormat format = CPDateUtils.formatDates.get(formatString);
         
-        if(format == null)
+        if (format == null)
         {
             format = new SimpleDateFormat(formatString);
             CPDateUtils.formatDates.put(formatString, format);
@@ -134,7 +133,7 @@ public class CPDateUtils
     {
         DateTimeFormatter format = CPDateUtils.formatLocalDates.get(formatString);
         
-        if(format == null)
+        if (format == null)
         {
             
             format = DateTimeFormatter.ofPattern(formatString);
@@ -273,10 +272,17 @@ public class CPDateUtils
      */
     public static LocalDate toLocalDate(Date date)
     {
-        Instant instant = date.toInstant();
-        ZoneId zone = ZoneId.systemDefault();
-        LocalDate localDate = instant.atZone(zone).toLocalDate();
-        return localDate;
+        return date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
     }
-    
+
+    /**
+     * LocalDate を Date に変換
+     *
+     * @param localDate
+     * @return
+     */
+    public static Date toDate(LocalDate localDate)
+    {
+        return Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
+    }
 }

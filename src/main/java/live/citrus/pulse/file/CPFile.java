@@ -27,7 +27,7 @@ public class CPFile
         
         try
         {
-            if(CPFile.canReadable(file) == true)
+            if (CPFile.canReadable(file) == true)
             {
                 FileReader fileReader = new FileReader(file);
                 BufferedReader bufferedReader = new BufferedReader(fileReader);
@@ -78,7 +78,7 @@ public class CPFile
 ////        File dir = new File(dirpath);
 ////        String filepath = dirpath + filename;
 ////
-////        if(dir.exists() == false)
+////        if (dir.exists() == false)
 ////        {
 ////            dir.mkdirs();
 ////        }
@@ -97,7 +97,7 @@ public class CPFile
         File dir = new File(dirpath);
         String filepath = dirpath + filename;
 
-        if(dir.exists() == false)
+        if (dir.exists() == false)
         {
             dir.mkdirs();
         }
@@ -118,7 +118,7 @@ public class CPFile
         boolean result = false;
         try
         {
-            if(CPFile.canWritable(file) == true)
+            if (CPFile.canWritable(file) == true)
             {
                 FileWriter fileWriter = new FileWriter(file);
                 BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
@@ -137,7 +137,7 @@ public class CPFile
         }
 
         String status = "success";
-        if(result == false)
+        if (result == false)
         {
             status = "failed ";
         }
@@ -154,9 +154,9 @@ public class CPFile
     public static boolean canReadable(File file)
     {
         boolean result = false;
-        if(file.exists() == true)
+        if (file.exists() == true)
         {
-            if(file.isFile() == true && file.canRead() == true)
+            if (file.isFile() == true && file.canRead() == true)
             {
                 result = true;
             }
@@ -176,9 +176,9 @@ public class CPFile
     {
         boolean result = false;
         file.createNewFile();
-        if(file.exists() == true)
+        if (file.exists() == true)
         {
-            if(file.isFile() == true && file.canWrite() == true)
+            if (file.isFile() == true && file.canWrite() == true)
             {
                 result = true;
             }
@@ -209,7 +209,7 @@ public class CPFile
     public static boolean exists(String[] filepaths)
     {
         List<String> list = new ArrayList<String>(filepaths.length);
-        for(String filepath : filepaths)
+        for (String filepath : filepaths)
         {
             list.add(filepath);
         }
@@ -226,9 +226,9 @@ public class CPFile
     public static boolean exists(List<String> filepaths)
     {
         boolean result = true;
-        for(String filepath : filepaths)
+        for (String filepath : filepaths)
         {
-            if(CPFile.exist(filepath) == false)
+            if (CPFile.exist(filepath) == false)
             {
                 CPLogger.debug("file not found : " + filepath);
                 result = false;

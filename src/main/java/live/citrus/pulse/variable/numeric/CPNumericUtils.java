@@ -189,7 +189,7 @@ public class CPNumericUtils
     {
         DecimalFormat format = CPNumericUtils.formats.get(formatString);
         
-        if(format == null)
+        if (format == null)
         {
             format = new DecimalFormat(formatString);
             CPNumericUtils.formats.put(formatString, format);

@@ -13,25 +13,25 @@ public class CPLogger
         CPLogger.debug(elements[2].toString());
     }
     
-	public static void debug(String logString)
-	{
-	    Date date = new Date();
-	    System.out.println("[" + CPLogger.dateFormar.format(date) + "] " + logString);
-	}
-	public static void debug(String format, Object ... args)
-	{
+    public static void debug(String logString)
+    {
+        Date date = new Date();
+        System.out.println("[" + CPLogger.dateFormar.format(date) + "] " + logString);
+    }
+    public static void debug(String format, Object ... args)
+    {
         System.out.printf(format, args);
-	}
-	public static void debug(Exception e)
-	{
-	    e.printStackTrace();
-	}
-	public static void debugJson(String jsonString)
-	{
-	    String replaced = jsonString;
+    }
+    public static void debug(Exception e)
+    {
+        e.printStackTrace();
+    }
+    public static void debugJson(String jsonString)
+    {
+        String replaced = jsonString;
         replaced = replaced.replaceAll("\"", "");
-	    replaced = replaced.replaceAll("\\{", "\\{\n");
-	    replaced = replaced.replaceAll("\\[", "\\[\n");
+        replaced = replaced.replaceAll("\\{", "\\{\n");
+        replaced = replaced.replaceAll("\\[", "\\[\n");
         replaced = replaced.replaceAll(",", ",\n");
         replaced = replaced.replaceAll("\\},", "\n\\},");
         replaced = replaced.replaceAll("\\],", "\n\\],");
@@ -41,22 +41,22 @@ public class CPLogger
         
         StringBuilder stringBuilder = new StringBuilder();
         int indent = 0;
-        for(String split : splits)
+        for (String split : splits)
         {
-            if((split.startsWith("]") == true) || (split.endsWith("]") == true)
+            if ((split.startsWith("]") == true) || (split.endsWith("]") == true)
                     || (split.startsWith("}") == true) || (split.endsWith("}") == true))
             {
                 indent--;
             }
             
-            for(int i = 0; i < indent; i++)
+            for (int i = 0; i < indent; i++)
             {
                 stringBuilder.append("    ");
             }
             stringBuilder.append(split);
             stringBuilder.append("\n");
             
-            if(split.startsWith("[") == true || split.endsWith("[") == true
+            if (split.startsWith("[") == true || split.endsWith("[") == true
                     || split.startsWith("{") == true || split.endsWith("{") == true)
             {
                 indent++;
@@ -64,5 +64,5 @@ public class CPLogger
         }
         
         CPLogger.debug(stringBuilder.toString());
-	}
+    }
 }

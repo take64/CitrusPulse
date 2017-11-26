@@ -140,12 +140,12 @@ public class CPHttp
             connection.setRequestMethod("POST");
             
             // パラメータ
-            if(parameters != null)
+            if (parameters != null)
             {
                 String parameter = "";
-                for(Entry<String, String> entry : parameters.entrySet())
+                for (Entry<String, String> entry : parameters.entrySet())
                 {
-                    if(parameter.equals("") == false)
+                    if (parameter.equals("") == false)
                     {
                         parameter += "&";
                     }

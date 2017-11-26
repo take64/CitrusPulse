@@ -32,16 +32,16 @@ public class CPFxDialog
         alert.getDialogPane().setContentText(content);
         Optional<ButtonType> button = alert.showAndWait();
         
-        if(button.get().equals(ButtonType.NO) == true)
+        if (button.get().equals(ButtonType.NO) == true)
         {
-            if(noCallback != null)
+            if (noCallback != null)
             {
                 noCallback.callback();
             }
         }
         else
         {
-            if(yesCallback != null)
+            if (yesCallback != null)
             {
                 yesCallback.callback();
             }
@@ -63,9 +63,9 @@ public class CPFxDialog
         alert.getDialogPane().setContentText(content);
         Optional<ButtonType> button = alert.showAndWait();
         
-        if(button.get().equals(ButtonType.OK) == true)
+        if (button.get().equals(ButtonType.OK) == true)
         {
-            if(okCallback != null)
+            if (okCallback != null)
             {
                 okCallback.callback();
             }
@@ -87,9 +87,9 @@ public class CPFxDialog
         alert.getDialogPane().setContentText(content);
         Optional<ButtonType> button = alert.showAndWait();
         
-        if(button.get().equals(ButtonType.OK) == true)
+        if (button.get().equals(ButtonType.OK) == true)
         {
-            if(okCallback != null)
+            if (okCallback != null)
             {
                 okCallback.callback();
             }

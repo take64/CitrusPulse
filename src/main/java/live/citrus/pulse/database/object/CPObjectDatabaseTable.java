@@ -51,7 +51,7 @@ public class CPObjectDatabaseTable
     {
         record.columnComplete();
         // プライマリキーが無い場合は自動生成
-        if(record.primaryKey == null)
+        if (record.primaryKey == null)
         {
             record.primaryKey = CPObjectDatabaseManager.generatePrimaryKey();
             record.setTable(this);
@@ -70,7 +70,7 @@ public class CPObjectDatabaseTable
      */
     public void addRecords(List<? extends CPObjectDatabaseRecord> records)
     {
-        for(CPObjectDatabaseRecord one : records)
+        for (CPObjectDatabaseRecord one : records)
         {
             this.addRecord(one);
         }
@@ -159,11 +159,11 @@ public class CPObjectDatabaseTable
         Collection<CPObjectDatabaseRecord> entities = this.callRecords().values();
         try
         {
-            for(CPObjectDatabaseRecord one : entities)
+            for (CPObjectDatabaseRecord one : entities)
             {
                 Field field = one.getClass().getField(key);
                 Object fieldValue = field.get(one);
-                if(value.equals(fieldValue) == true)
+                if (value.equals(fieldValue) == true)
                 {
                     results.add(one);
                 }
@@ -188,14 +188,14 @@ public class CPObjectDatabaseTable
         Collection<CPObjectDatabaseRecord> entities = this.callRecords().values();
         try
         {
-            for(CPObjectDatabaseRecord one : entities)
+            for (CPObjectDatabaseRecord one : entities)
             {
                 boolean result = false;
-                for(Entry<String, Object> entry : conditions.entrySet())
+                for (Entry<String, Object> entry : conditions.entrySet())
                 {
                     Field field = one.getClass().getField(entry.getKey());
                     Object fieldValue = field.get(one);
-                    if(fieldValue.equals(entry.getValue()) == true)
+                    if (fieldValue.equals(entry.getValue()) == true)
                     {
                         result = true;
                     }
@@ -205,7 +205,7 @@ public class CPObjectDatabaseTable
                         break;
                     }
                 }
-                if(result == true)
+                if (result == true)
                 {
                     results.add(one);
                 }
@@ -229,7 +229,7 @@ public class CPObjectDatabaseTable
     {
         CPObjectDatabaseRecord result = null;
         List<CPObjectDatabaseRecord> entities = this.searchRecords(key, value);
-        if(entities.isEmpty() == false)
+        if (entities.isEmpty() == false)
         {
             result = entities.get(0);
         }
@@ -246,7 +246,7 @@ public class CPObjectDatabaseTable
     {
         CPObjectDatabaseRecord result = null;
         List<CPObjectDatabaseRecord> entities = this.searchRecords(conditions);
-        if(entities.isEmpty() == false)
+        if (entities.isEmpty() == false)
         {
             result = entities.get(0);
         }
@@ -293,25 +293,25 @@ public class CPObjectDatabaseTable
         String jsonString = this.jsonSourceString;
 
         // JSONObject
-        if(jsonString.startsWith("{") == true)
+        if (jsonString.startsWith("{") == true)
         {
             // ここに入ることは想定していない
             JSONObject jsonObject = new JSONObject(jsonString);
-            if(jsonObject.get(key).equals(value) == true)
+            if (jsonObject.get(key).equals(value) == true)
             {
                 this.jsonSourceString = "";
             }
         }
         // JSONArray
-        else if(jsonString.startsWith("[") == true)
+        else if (jsonString.startsWith("[") == true)
         {
             JSONArray jsonArray = new JSONArray(jsonString);
 
             int length = jsonArray.length();
-            for(int i = (length - 1); i >= 0; i--)
+            for (int i = (length - 1); i >= 0; i--)
             {
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
-                if(jsonObject.get(key).equals(value) == true)
+                if (jsonObject.get(key).equals(value) == true)
                 {
                     jsonArray.remove(i);
                 }
@@ -334,25 +334,25 @@ public class CPObjectDatabaseTable
         String jsonString = this.jsonSourceString;
 
         // JSONObject
-        if(jsonString.startsWith("{") == true)
+        if (jsonString.startsWith("{") == true)
         {
             // ここに入ることは想定していない
             JSONObject jsonObject = new JSONObject(jsonString);
-            if(jsonObject.get(searchKey).equals(searchValue) == true)
+            if (jsonObject.get(searchKey).equals(searchValue) == true)
             {
                 jsonObject.put(replaceKey, replaceValue);
             }
         }
         // JSONArray
-        else if(jsonString.startsWith("[") == true)
+        else if (jsonString.startsWith("[") == true)
         {
             JSONArray jsonArray = new JSONArray(jsonString);
 
             int length = jsonArray.length();
-            for(int i = (length - 1); i >= 0; i--)
+            for (int i = (length - 1); i >= 0; i--)
             {
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
-                if(jsonObject.get(searchKey).equals(searchValue) == true)
+                if (jsonObject.get(searchKey).equals(searchValue) == true)
                 {
                     jsonObject.put(replaceKey, replaceValue);
                 }
@@ -375,25 +375,25 @@ public class CPObjectDatabaseTable
         String jsonString = this.jsonSourceString;
 
         // JSONObject
-        if(jsonString.startsWith("{") == true)
+        if (jsonString.startsWith("{") == true)
         {
             // ここに入ることは想定していない
             JSONObject jsonObject = new JSONObject(jsonString);
-            if(jsonObject.get(searchKey).equals(searchValue) == true)
+            if (jsonObject.get(searchKey).equals(searchValue) == true)
             {
                 this.jsonSourceString = replaceJSONObject.toString();
             }
         }
         // JSONArray
-        else if(jsonString.startsWith("[") == true)
+        else if (jsonString.startsWith("[") == true)
         {
             JSONArray jsonArray = new JSONArray(jsonString);
 
             int length = jsonArray.length();
-            for(int i = (length - 1); i >= 0; i--)
+            for (int i = (length - 1); i >= 0; i--)
             {
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
-                if(jsonObject.get(searchKey).equals(searchValue) == true)
+                if (jsonObject.get(searchKey).equals(searchValue) == true)
                 {
                     jsonArray.remove(i);
                 }
@@ -419,7 +419,7 @@ public class CPObjectDatabaseTable
     public JSONArray toJSONArray()
     {
         JSONArray jsonArray = new JSONArray();
-        for(CPObjectDatabaseRecord record : this.callRecords().values())
+        for (CPObjectDatabaseRecord record : this.callRecords().values())
         {
             jsonArray.put(record.toMap());
         }

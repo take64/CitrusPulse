@@ -35,27 +35,27 @@ public class CPDecimalUtils
     {
         int width = 0;
         // 以上系
-        if(bigDecimal.compareTo(new BigDecimal(999)) == 1)
+        if (bigDecimal.compareTo(new BigDecimal(999)) == 1)
         {
             width = 3;
         }
-        else if(bigDecimal.compareTo(new BigDecimal(99)) == 1)
+        else if (bigDecimal.compareTo(new BigDecimal(99)) == 1)
         {
             width = 2;
         }
-        else if(bigDecimal.compareTo(new BigDecimal(9)) == 1)
+        else if (bigDecimal.compareTo(new BigDecimal(9)) == 1)
         {
             width = 1;
         }
-        else if(bigDecimal.compareTo(new BigDecimal(-999)) == -1)
+        else if (bigDecimal.compareTo(new BigDecimal(-999)) == -1)
         {
             width = 5;
         }
-        else if(bigDecimal.compareTo(new BigDecimal(-99)) == -1)
+        else if (bigDecimal.compareTo(new BigDecimal(-99)) == -1)
         {
             width = 4;
         }
-        else if(bigDecimal.compareTo(new BigDecimal(-9)) == -1)
+        else if (bigDecimal.compareTo(new BigDecimal(-9)) == -1)
         {
             width = 3;
         }

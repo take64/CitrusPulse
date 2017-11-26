@@ -43,7 +43,7 @@ public class CPFxStage extends Stage
     {
         try
         {
-            if(this.loaded == false)
+            if (this.loaded == false)
             {
                 URL url = clazz.getResource(fxmlname);
                 CPLogger.debug("load fxml : " + url.toString());
@@ -78,7 +78,7 @@ public class CPFxStage extends Stage
      */
     public <T> void loadStylesheet(Class<T> clazz, String cssname)
     {
-        if(this.loaded == true)
+        if (this.loaded == true)
         {
             URL url = clazz.getResource(cssname);
             String style = url.toExternalForm();
