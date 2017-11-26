@@ -44,15 +44,15 @@ public class CPStringUtils
     {
         String value = "";
         int size = byteValues.length;
-        for(int i = 0; i < size; i++) 
+        for (int i = 0; i < size; i++)
         {
             int n = byteValues[i];
-            if(n < 0)
+            if (n < 0)
             {
                 n += 256;
             }
             String hexString = Integer.toHexString(n);
-            if(hexString.length() == 1)
+            if (hexString.length() == 1)
             {
                 hexString = "0" + hexString;
             }
@@ -73,12 +73,12 @@ public class CPStringUtils
         // 回しながら append
         StringBuilder stringBuilder = new StringBuilder();
         int length = stringValue.length();
-        for(int i = 0; i < length; i++)
+        for (int i = 0; i < length; i++)
         {
             char c = stringValue.charAt(i);
-            if(Character.isUpperCase(c) == true)
+            if (Character.isUpperCase(c) == true)
             {
-                if(stringBuilder.length() != 0)
+                if (stringBuilder.length() != 0)
                 {
                     stringBuilder.append("_");
                 }
@@ -110,9 +110,9 @@ public class CPStringUtils
         
         // 回しながら append
         StringBuilder stringBuilder = new StringBuilder();
-        for(int i = 0; i < splits.length; i++)
+        for (int i = 0; i < splits.length; i++)
         {
-            if(i == 0)
+            if (i == 0)
             {
                 stringBuilder.append(splits[i]);
             }
@@ -141,10 +141,10 @@ public class CPStringUtils
         
         // 回しながら append
         StringBuilder stringBuilder = new StringBuilder();
-        for(int i = 0; i < splits.length; i++)
+        for (int i = 0; i < splits.length; i++)
         {
             String part = splits[i];
-            if(splits.length > 1)
+            if (splits.length > 1)
             {
                 part = part.toLowerCase();
             }
@@ -185,12 +185,12 @@ public class CPStringUtils
         int length = className.length();
         int start = 0;
         int end = 0;
-        for(int i = 0; i < length; i++)
+        for (int i = 0; i < length; i++)
         {
-            if(Character.isUpperCase(className.charAt(i)) == true)
+            if (Character.isUpperCase(className.charAt(i)) == true)
             {
                 end = i;
-                if(end > start)
+                if (end > start)
                 {
                     results.add(className.substring(start, end));
                 }
@@ -210,10 +210,10 @@ public class CPStringUtils
     public static int maxLength(String[] values)
     {
         int max = 0;
-        for(String val : values)
+        for (String val : values)
         {
             int length = val.length();
-            if(max < length)
+            if (max < length)
             {
                 max = length;
             }
@@ -230,10 +230,10 @@ public class CPStringUtils
     public static int minLength(String[] values)
     {
         int min = Integer.MAX_VALUE;
-        for(String val : values)
+        for (String val : values)
         {
             int length = val.length();
-            if(min > length)
+            if (min > length)
             {
                 min = length;
             }
@@ -249,7 +249,7 @@ public class CPStringUtils
     public static String toStringZeroToBlank(Integer value)
     {
         String result = value.toString();
-        if(result.equals("0") == true)
+        if (result.equals("0") == true)
         {
             result = "";
         }

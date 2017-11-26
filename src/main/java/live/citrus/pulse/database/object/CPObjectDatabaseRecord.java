@@ -51,10 +51,10 @@ public abstract class CPObjectDatabaseRecord
         {
             Field[] thisFields = this.getClass().getFields();
             
-            for(Field thisField : thisFields)
+            for (Field thisField : thisFields)
             {
                 // アノテーションの貼ってないフィールドは飛ばす
-                if(thisField.isAnnotationPresent(CPFX.class) == false)
+                if (thisField.isAnnotationPresent(CPFX.class) == false)
                 {
                     continue;
                 }
@@ -67,7 +67,7 @@ public abstract class CPObjectDatabaseRecord
                 Field paneField = pane.getClass().getDeclaredField(fieldName);
 
                 // ペーンのフィールドがFXMLではなければスルー
-                if(paneField.isAnnotationPresent(FXML.class) == false)
+                if (paneField.isAnnotationPresent(FXML.class) == false)
                 {
                     continue;
                 }
@@ -79,7 +79,7 @@ public abstract class CPObjectDatabaseRecord
                 value = CPObjectDatabaseRecord.convertValueForField(value, thisField);
 
                 // 値設定
-                if(value != null && value.equals("") == false)
+                if (value != null && value.equals("") == false)
                 {
                     thisField.set(this, value);
                 }
@@ -102,10 +102,10 @@ public abstract class CPObjectDatabaseRecord
         {
             Field[] thisFields = this.getClass().getFields();
             
-            for(Field thisField : thisFields)
+            for (Field thisField : thisFields)
             {
                 // アノテーションの貼ってあるフィールド
-                if(thisField.isAnnotationPresent(CPOD.class) == true)
+                if (thisField.isAnnotationPresent(CPOD.class) == true)
                 {
                     // アクセスON
                     thisField.setAccessible(true);
@@ -115,37 +115,37 @@ public abstract class CPObjectDatabaseRecord
                     CPOD cpod = thisField.getAnnotationsByType(CPOD.class)[0];
                     String fieldName = cpod.value();
                     // JSONのデータを取得
-                    if(jsonObject.isNull(fieldName) == true)
+                    if (jsonObject.isNull(fieldName) == true)
                     {
                         continue;
                     }
                     Object value = jsonObject.get(fieldName);
                     // JSONArrayの場合に分解
-                    if(value instanceof JSONArray)
+                    if (value instanceof JSONArray)
                     {
                         value = ((JSONArray)value).toList();
                     }
-                    else if(value instanceof JSONObject)
+                    else if (value instanceof JSONObject)
                     {
                         value = ((JSONObject)value).toMap();
                     }
-                    else if(value instanceof String && thisFieldClass == Integer.class)
+                    else if (value instanceof String && thisFieldClass == Integer.class)
                     {
                         value = Integer.valueOf((String)value);
                     }
-                    else if(value instanceof Integer && thisFieldClass == String.class)
+                    else if (value instanceof Integer && thisFieldClass == String.class)
                     {
                         value = value.toString();
                     }
-                    else if(value instanceof Integer && thisFieldClass == Long.class)
+                    else if (value instanceof Integer && thisFieldClass == Long.class)
                     {
                         value = ((Integer) value).longValue();
                     }
-                    else if(value instanceof Integer && thisFieldClass == Double.class)
+                    else if (value instanceof Integer && thisFieldClass == Double.class)
                     {
                         value = ((Integer) value).doubleValue();
                     }
-                    else if(value instanceof Long && thisFieldClass == Integer.class)
+                    else if (value instanceof Long && thisFieldClass == Integer.class)
                     {
                         value = ((Long) value).intValue();
                     }
@@ -174,7 +174,7 @@ public abstract class CPObjectDatabaseRecord
     /**
      * MAP形式に変換
      * 
-     * @return
+     * @return map形式
      */
     public Map<String, Object> toMap()
     {
@@ -183,10 +183,10 @@ public abstract class CPObjectDatabaseRecord
         try
         {
             Field[] fields = this.getClass().getFields();
-            for(Field field : fields)
+            for (Field field : fields)
             {
                 // staticフィールドはスルー
-                if(Modifier.isStatic(field.getModifiers()) == true)
+                if (Modifier.isStatic(field.getModifiers()) == true)
                 {
                     continue;
                 }
@@ -248,27 +248,27 @@ public abstract class CPObjectDatabaseRecord
         Object value = null;
 
         // ChoiceBox
-        if(paneField.getType() == ChoiceBox.class)
+        if (paneField.getType() == ChoiceBox.class)
         {
             value = ((ChoiceBox<?>)object).getValue();
         }
         // CheckBox
-        else if(paneField.getType() == CheckBox.class)
+        else if (paneField.getType() == CheckBox.class)
         {
             value = ((CheckBox)object).isSelected() == true ? 1 : 0;
         }
         // RadioButton
-        else if(paneField.getType() == RadioButton.class)
+        else if (paneField.getType() == RadioButton.class)
         {
             value = ((RadioButton)object).isSelected() == true ? 1 : 0;
         }
         // DatePicker
-        else if(paneField.getType() == DatePicker.class)
+        else if (paneField.getType() == DatePicker.class)
         {
             value = CPDateUtils.format("yyyy-MM-dd", ((DatePicker)object).getValue());
         }
 
-        if(value.equals("null") == true)
+        if (value.equals("null") == true)
         {
             value = null;
         }
@@ -288,18 +288,18 @@ public abstract class CPObjectDatabaseRecord
     {
         Class<?> thisFieldClass = thisField.getType();
 
-        if(value instanceof Integer)
+        if (value instanceof Integer)
         {
             // Integer -> String
-            if(thisFieldClass == String.class)
+            if (thisFieldClass == String.class)
             {
                 value = value.toString();
             }
         }
-        else if(value instanceof String)
+        else if (value instanceof String)
         {
             // String -> Integer
-            if(thisFieldClass == Integer.class)
+            if (thisFieldClass == Integer.class)
             {
                 value = Integer.valueOf((String)value);
             }

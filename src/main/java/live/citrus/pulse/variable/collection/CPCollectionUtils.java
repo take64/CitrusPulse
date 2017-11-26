@@ -27,11 +27,11 @@ public class CPCollectionUtils
         T result = null;
         try
         {
-            for(T one : collectionList)
+            for (T one : collectionList)
             {
                 Field field = one.getClass().getField(searchKey);
                 Object fieldValue = field.get(one);
-                if(fieldValue.equals(compareValue) == true)
+                if (fieldValue.equals(compareValue) == true)
                 {
                     result = one;
                     break;

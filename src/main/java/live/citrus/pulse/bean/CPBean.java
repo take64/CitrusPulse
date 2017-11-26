@@ -15,7 +15,7 @@ public class CPBean implements Serializable
     {
         // フィールドを取得し動的設定
         Field[] fields = this.getClass().getFields();
-        for(Field field : fields)
+        for (Field field : fields)
         {
             try
             {
@@ -40,7 +40,7 @@ public class CPBean implements Serializable
         StringBuilder stringBuilder = new StringBuilder();
         
         Field[] fields = this.getClass().getFields();
-        for(Field field : fields)
+        for (Field field : fields)
         {
             String fieldKey = field.getName();
             Object fieldVal;

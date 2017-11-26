@@ -53,8 +53,8 @@ public class CPHttpData
     public List<String> callUriSegments()
     {
         String[] segments = this.uri.split("/");
-        List<String> uriSegments = new ArrayList<String>(segments.length);
-        for(String one : segments)
+        List<String> uriSegments = new ArrayList<>(segments.length);
+        for (String one : segments)
         {
             uriSegments.add(one);
         }
@@ -87,11 +87,11 @@ public class CPHttpData
      */
     public Map<String, String> callQueries()
     {
-        Map<String, String> result = new HashMap<String, String>(4);
+        Map<String, String> result = new HashMap<>(4);
         
         String query = this.callQuery();
         String[] parts = query.split("&");
-        for(String one : parts)
+        for (String one : parts)
         {
             String[] part = one.split("=");
             result.put(part[0], part[1]);
@@ -132,14 +132,14 @@ public class CPHttpData
         boolean result = false;
         
         // クラスチェック
-        if(CPHttpData.isUrlPatternClass(httpData, object.getClass()) == true)
+        if (CPHttpData.isUrlPatternClass(httpData, object.getClass()) == true)
         {
             // メソッドチェック
             Method[] methods = object.getClass().getMethods();
-            for(Method method : methods)
+            for (Method method : methods)
             {
                 // 合致しなければスルー
-                if(CPHttpData.isUrlPatternMethod(httpData, method) == false)
+                if (CPHttpData.isUrlPatternMethod(httpData, method) == false)
                 {
                     continue;
                 }
@@ -170,14 +170,13 @@ public class CPHttpData
     {
         boolean result = false;
         
-        if(clazz.isAnnotationPresent(CPHttpUriPattern.class) == true)
+        if (clazz.isAnnotationPresent(CPHttpUriPattern.class) == true)
         {
             CPHttpUriPattern uriPattern = clazz.getAnnotationsByType(CPHttpUriPattern.class)[0];
             result = CPHttpData.isUrlPattern(httpData, uriPattern);
         }
         return result;
     }
-
 
     /**
      * メソッドがCPHttpUriPatternに合致するかどうか
@@ -190,14 +189,13 @@ public class CPHttpData
     {
         boolean result = false;
         
-        if(method.isAnnotationPresent(CPHttpUriPattern.class) == true)
+        if (method.isAnnotationPresent(CPHttpUriPattern.class) == true)
         {
             CPHttpUriPattern uriPattern = method.getAnnotationsByType(CPHttpUriPattern.class)[0];
             result = CPHttpData.isUrlPattern(httpData, uriPattern);
         }
         return result;
     }
-
 
     /**
      * パターンとURIセグメントが合致するか
@@ -215,24 +213,24 @@ public class CPHttpData
         String[] uriPatternValue = uriPattern.value();
         int index = Integer.parseInt(uriPatternValue[0]);
         String pattern = uriPatternValue[1];
-        if(uriSegments.size() > index)
+        if (uriSegments.size() > index)
         {
             String segment = uriSegments.get(index);
-            if(pattern.startsWith("*") == true && pattern.endsWith("*") == true)
+            if (pattern.startsWith("*") == true && pattern.endsWith("*") == true)
             {
-                if(segment.contains(pattern) == true) { result = true; }
+                if (segment.contains(pattern) == true) { result = true; }
             }
-            else if(pattern.startsWith("*") == true)
+            else if (pattern.startsWith("*") == true)
             {
-                if(segment.endsWith(pattern) == true) { result = true; }
+                if (segment.endsWith(pattern) == true) { result = true; }
             }
-            else if(pattern.endsWith("*") == true)
+            else if (pattern.endsWith("*") == true)
             {
-                if(segment.startsWith(pattern) == true) { result = true; }
+                if (segment.startsWith(pattern) == true) { result = true; }
             }
             else
             {
-                if(segment.equals(pattern) == true) { result = true; }
+                if (segment.equals(pattern) == true) { result = true; }
             }
         }
 

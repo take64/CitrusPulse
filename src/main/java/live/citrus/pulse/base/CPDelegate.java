@@ -29,16 +29,16 @@ public abstract class CPDelegate
     public static void launch(Class<?> clazz, String[] args)
     {
         // classファイルタイプ
-        // classFileName: /net/besidesplus/java/FGFP/gui/AppMain.class
-        // classFilePath: /Users/take64/Dropbox/Workspace/Java/FGFP/target/classes/net/besidesplus/java/FGFP/gui/AppMain.class
-        // jarFilePath: /Users/take64/Dropbox/Workspace/Java/FGFP/target/classes/net/besidesplus/java/FGFP/gui/AppMain.class
+        // classFileName: /net/besidesplus/java/fgfp/gui/AppMain.class
+        // classFilePath: /Users/take64/Dropbox/Workspace/Java/fgfp/target/classes/net/besidesplus/java/fgfp/gui/AppMain.class
+        // jarFilePath: /Users/take64/Dropbox/Workspace/Java/fgfp/target/classes/net/besidesplus/java/fgfp/gui/AppMain.class
         // jarFileName: AppMain
 
         // jarファイルタイプ
-        // classFileName: /net/besidesplus/java/FGFP/gui/AppMain.class
-        // classFilePath: file:/Users/take64/Dropbox/Workspace/Java/FGFP/build/dist/FGFP.jar!/net/besidesplus/java/FGFP/gui/AppMain.class
-        // jarFilePath: file:/Users/take64/Dropbox/Workspace/Java/FGFP/build/dist/FGFP.jar
-        // jarFileName: FGFP
+        // classFileName: /net/besidesplus/java/fgfp/gui/AppMain.class
+        // classFilePath: file:/Users/take64/Dropbox/Workspace/Java/fgfp/build/dist/fgfp.jar!/net/besidesplus/java/fgfp/gui/AppMain.class
+        // jarFilePath: file:/Users/take64/Dropbox/Workspace/Java/fgfp/build/dist/fgfp.jar
+        // jarFileName: fgfp
 
         final String classFileName = "/" + clazz.getName().replaceAll("\\.", "/") + ".class";
         CPLogger.debug("classFileName: " + classFileName);
@@ -55,12 +55,12 @@ public abstract class CPDelegate
         // アプリディレクトリの取得
         String appDir = "";
         // jarファイルタイプ
-        if(jarFilePath.toString().endsWith(".jar") == true)
+        if (jarFilePath.toString().endsWith(".jar") == true)
         {
             appDir = jarFilePath.toString().replaceAll(jarFileName + ".jar", "");
         }
         // classファイルタイプ
-        else if(jarFilePath.toString().endsWith(".class") == true)
+        else if (jarFilePath.toString().endsWith(".class") == true)
         {
             appDir = jarFilePath.toString().replaceAll(classFileName, "/");
         }

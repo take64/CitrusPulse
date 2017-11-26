@@ -60,7 +60,7 @@ public class CPObjectDatabaseManager
         CPObjectDatabaseTable table = this.tables.get(entityName);
         
         // なければ生成
-        if(table == null)
+        if (table == null)
         {
             // 生成
             table = new CPObjectDatabaseTable(entityName);
@@ -87,12 +87,12 @@ public class CPObjectDatabaseManager
         CPObjectDatabaseTable table = this.tables.get(tableName);
         
         // テーブルがない
-        if(table == null)
+        if (table == null)
         {
              result = false;
         }
         // テーブルはあるが、処理中
-        else if(table.callProcess() == true)
+        else if (table.callProcess() == true)
         {
             result = false;
         }
@@ -113,9 +113,9 @@ public class CPObjectDatabaseManager
         boolean result = true;
         
         // はぁ〜、回レ回レ回レ回レ回レ回レ回レ回レ回レ
-        for(String tableName : tableNames)
+        for (String tableName : tableNames)
         {
-            if(this.availableTable(tableName) == false)
+            if (this.availableTable(tableName) == false)
             {
                 result = false;
                 break;
@@ -183,18 +183,18 @@ public class CPObjectDatabaseManager
         try
         {            
             // JSONObject
-            if(jsonString.startsWith("{") == true)
+            if (jsonString.startsWith("{") == true)
             {
                 JSONObject jsonObject = new JSONObject(jsonString);
                 this.parseJSONObject(jsonObject, table, clazz);
             }
             // JSONArray
-            else if(jsonString.startsWith("[") == true)
+            else if (jsonString.startsWith("[") == true)
             {
                 JSONArray jsonArray = new JSONArray(jsonString);
 
                 int length = jsonArray.length();
-                for(int i = 0; i < length; i++)
+                for (int i = 0; i < length; i++)
                 {
                     this.parseJSONObject(jsonArray.getJSONObject(i), table, clazz);
                 }
@@ -222,7 +222,7 @@ public class CPObjectDatabaseManager
         
         // カラム数制約
         CPObjectDatabaseCallback callback = record.callLoadingCallback();
-        if(callback != null && callback.validate(jsonObject) == false)
+        if (callback != null && callback.validate(jsonObject) == false)
         {
             record = null;
             return;
@@ -230,7 +230,7 @@ public class CPObjectDatabaseManager
         
         record.bindFromJSON(jsonObject);
         record.columnComplete();
-        if(record.enabled() == true)
+        if (record.enabled() == true)
         {
             table.addRecord(record);
         }
@@ -267,7 +267,7 @@ public class CPObjectDatabaseManager
         try
         {
             JSONArray jsonArray = this.callTable(entityName).toJSONArray();
-            if(jsonArray.length() == 0)
+            if (jsonArray.length() == 0)
             {
                 throw new Exception("json empty");
             }
@@ -302,7 +302,7 @@ public class CPObjectDatabaseManager
         try
         {
             String jsonString = this.callTable(entityName).callJSONSource();
-            if(jsonString == null)
+            if (jsonString == null)
             {
 //                this.callTable(entityName).replaceJSONSource(this.callTable(entityName).toJSONArray().toString());
                 this.callTable(entityName).replaceToJSONSource();
@@ -375,7 +375,7 @@ public class CPObjectDatabaseManager
         // ファイル名取得
         StringBuilder stringBuilder = new StringBuilder();
         int length = entityNameParts.size();
-        for(int i = 0; i < (length - 1); i++)
+        for (int i = 0; i < (length - 1); i++)
         {
             stringBuilder.append(entityNameParts.get(i));
         }
